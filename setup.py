@@ -16,8 +16,13 @@ setup(
     url=url,
     install_requires=[
         "Click",
-        "click-plugins",
+        "dtoolcore",
     ],
+    entry_points={
+        "dtool.dataset": [
+            "create=dtool_create.dataset:create",
+        ],
+    },
     download_url="{}/tarball/{}".format(url, version),
     license="MIT"
 )
