@@ -18,6 +18,7 @@ def create_path(ctx, param, value):
 @click.command()
 @click.argument("new_dataset_path", callback=create_path)
 def create(new_dataset_path):
+    """Create an empty dataset."""
     dataset_name = os.path.basename(new_dataset_path)
     dataset = dtoolcore.DataSet(dataset_name, data_directory="data")
     dataset.persist_to_path(new_dataset_path)
