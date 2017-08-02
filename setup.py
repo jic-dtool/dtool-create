@@ -18,10 +18,12 @@ setup(
         "Click",
         "dtoolcore",
         "dtool_cli",
+        "ruamel.yaml",
     ],
     entry_points={
         "dtool.dataset": [
             "create=dtool_create.dataset:create",
+            "readme=dtool_create.dataset:readme",
             "freeze=dtool_create.dataset:freeze",
         ],
     },
