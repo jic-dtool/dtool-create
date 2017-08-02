@@ -46,8 +46,16 @@ def create(new_dataset_path):
     dataset_name = os.path.basename(new_dataset_path)
     dataset = dtoolcore.DataSet(dataset_name, data_directory="data")
     dataset.persist_to_path(new_dataset_path)
-    click.secho("Created dataset: {}".format(new_dataset_path))
-    click.secho("Created dataset: {}".format(new_dataset_path))
+    click.secho("Created dataset ", nl=False, fg="green")
+    click.secho(new_dataset_path)
+    click.secho("Next steps: ")
+    click.secho("1. Add descriptive metadata, e.g: ")
+    click.secho("dtool dataset readme interactive {}".format(new_dataset_path), fg="cyan")
+    click.secho("2. Add raw data, e.g: ")
+    data_path = os.path.join(new_dataset_path, dataset.data_directory)
+    click.secho("mv my_data_directory {}/".format(data_path), fg="cyan")
+    click.secho("3. Freeze the dataset: ")
+    click.secho("dtool dataset freeze {}".format(new_dataset_path), fg="cyan")
 
 
 @click.group()
@@ -80,8 +88,10 @@ def interactive(dataset_path):
     prompt_for_values(descriptive_metadata)
     with open(dataset.abs_readme_path, "w") as fh:
         yaml.dump(descriptive_metadata, fh)
-    click.secho("Updated ", nl=False, fg="green")
+    click.secho("Updated readme ", nl=False, fg="green")
     click.secho(dataset.abs_readme_path)
+    click.secho("To edit the readme using your default editor:")
+    click.secho("dtool dataset readme edit {}".format(dataset._abs_path), fg="cyan")
 
 
 @readme.command()
@@ -96,9 +106,9 @@ def edit(dataset_path):
     if edited_content is not None:
         with open(dataset.abs_readme_path, "w") as fh:
             fh.write(edited_content)
-            click.secho("Updated ", nl=False, fg="green")
+            click.secho("Updated readme ", nl=False, fg="green")
     else:
-        click.secho("Did not update ", nl=False, fg="red")
+        click.secho("Did not update readme ", nl=False, fg="red")
     click.secho(dataset.abs_readme_path)
 
 
