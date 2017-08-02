@@ -17,10 +17,12 @@ setup(
     install_requires=[
         "Click",
         "dtoolcore",
+        "dtool_cli",
     ],
     entry_points={
         "dtool.dataset": [
             "create=dtool_create.dataset:create",
+            "freeze=dtool_create.dataset:freeze",
         ],
     },
     download_url="{}/tarball/{}".format(url, version),
