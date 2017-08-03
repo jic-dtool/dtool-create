@@ -9,3 +9,4 @@
 .tox/
 env/
 env35/
+dist/
