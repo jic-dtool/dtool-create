@@ -27,7 +27,7 @@ def test_dataset_create_functional(chdir_fixture):  # NOQA
     assert dataset.data_directory == "data"
 
 
-def test_dataset_create_fails_on_directory_exists(chdir_fixture):
+def test_dataset_create_fails_on_directory_exists(chdir_fixture):  # NOQA
     from dtool_create.dataset import create
     runner = CliRunner()
 
@@ -38,7 +38,8 @@ def test_dataset_create_fails_on_directory_exists(chdir_fixture):
     assert result.output.startswith("Usage")
     assert result.output.find("File/directory already exists") != -1
 
-def test_dataset_create_can_work_outside_current_directory(tmp_dir_fixture):
+
+def test_dataset_create_can_work_outside_current_directory(tmp_dir_fixture):  # NOQA
     from dtool_create.dataset import create
     runner = CliRunner()
 

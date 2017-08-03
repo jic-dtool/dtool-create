@@ -8,7 +8,7 @@ import click
 import dtoolcore
 
 from ruamel.yaml import YAML
-from ruamel.ordereddict import ordereddict
+from ruamel.yaml.comments import CommentedMap
 
 from dtool_cli.cli import dataset_path_argument
 
@@ -43,16 +43,23 @@ def create_path(ctx, param, value):
 @click.argument("new_dataset_path", callback=create_path)
 def create(new_dataset_path):
     """Create an empty dataset."""
+    # Create the dataset.
     dataset_name = os.path.basename(new_dataset_path)
     dataset = dtoolcore.DataSet(dataset_name, data_directory="data")
     dataset.persist_to_path(new_dataset_path)
+
+    # Find the abspath of the data directory for user feedback.
+    data_path = os.path.join(new_dataset_path, dataset.data_directory)
+
+    # Give the user some feedback and hints on what to do next.
     click.secho("Created dataset ", nl=False, fg="green")
     click.secho(new_dataset_path)
     click.secho("Next steps: ")
     click.secho("1. Add descriptive metadata, e.g: ")
-    click.secho("dtool dataset readme interactive {}".format(new_dataset_path), fg="cyan")
+    click.secho(
+        "dtool dataset readme interactive {}".format(new_dataset_path),
+        fg="cyan")
     click.secho("2. Add raw data, e.g: ")
-    data_path = os.path.join(new_dataset_path, dataset.data_directory)
     click.secho("mv my_data_directory {}/".format(data_path), fg="cyan")
     click.secho("3. Freeze the dataset: ")
     click.secho("dtool dataset freeze {}".format(new_dataset_path), fg="cyan")
@@ -70,13 +77,21 @@ def interactive(dataset_path):
     """Update the readme file interactively."""
     dataset = dtoolcore.DataSet.from_path(dataset_path)
 
+    # Create an CommentedMap representation of the yaml readme template.
     yaml = YAML()
     yaml.explicit_start = True
     descriptive_metadata = yaml.load(README_TEMPLATE)
 
     def prompt_for_values(d):
+        """Update the descriptive metadata interactively.
+
+        Uses values entered by the user. Note that the function keeps recursing
+        whenever a value is another ``CommentedMap`` or a ``list``. The
+        function works as passing dictionaries and lists into a function edits
+        the values in place.
+        """
         for key, value in d.iteritems():
-            if isinstance(value, ordereddict):
+            if isinstance(value, CommentedMap):
                 prompt_for_values(value)
             elif isinstance(value, list):
                 for item in value:
@@ -86,12 +101,17 @@ def interactive(dataset_path):
                 d[key] = new_value
 
     prompt_for_values(descriptive_metadata)
+
+    # Write out the descriptive metadata to the readme file.
     with open(dataset.abs_readme_path, "w") as fh:
         yaml.dump(descriptive_metadata, fh)
+
     click.secho("Updated readme ", nl=False, fg="green")
     click.secho(dataset.abs_readme_path)
     click.secho("To edit the readme using your default editor:")
-    click.secho("dtool dataset readme edit {}".format(dataset._abs_path), fg="cyan")
+    click.secho(
+        "dtool dataset readme edit {}".format(dataset._abs_path),
+        fg="cyan")
 
 
 @readme.command()
