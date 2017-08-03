@@ -90,7 +90,7 @@ def interactive(dataset_path):
         function works as passing dictionaries and lists into a function edits
         the values in place.
         """
-        for key, value in d.iteritems():
+        for key, value in d.items():
             if isinstance(value, CommentedMap):
                 prompt_for_values(value)
             elif isinstance(value, list):
