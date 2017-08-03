@@ -131,4 +131,5 @@ def freeze(dataset_path):
     dataset = dtoolcore.DataSet.from_path(dataset_path)
     dataset.update_manifest()
     # dataset.freeze()
-    click.secho("Dataset frozen")
+    click.secho("Dataset frozen ", nl=False, fg="green")
+    click.secho(dataset._abs_path)
