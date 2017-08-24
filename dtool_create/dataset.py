@@ -1,8 +1,11 @@
 """dataset command line module."""
 
+import sys
 import os
 import getpass
 import datetime
+
+from StringIO import StringIO
 
 import click
 import dtoolcore
@@ -35,7 +38,6 @@ def create_path(ctx, param, value):
     if os.path.exists(abspath):
         raise click.BadParameter(
             "File/directory already exists: {}".format(abspath))
-    os.mkdir(abspath)
     return abspath
 
 
@@ -45,11 +47,11 @@ def create(new_dataset_path):
     """Create an empty dataset."""
     # Create the dataset.
     dataset_name = os.path.basename(new_dataset_path)
-    dataset = dtoolcore.DataSet(dataset_name, data_directory="data")
-    dataset.persist_to_path(new_dataset_path)
+    proto_dataset = dtoolcore.ProtoDataSet.create(
+        uri=new_dataset_path, name=dataset_name)
 
     # Find the abspath of the data directory for user feedback.
-    data_path = os.path.join(new_dataset_path, dataset.data_directory)
+    data_path = proto_dataset._storage_broker._data_abspath
 
     # Give the user some feedback and hints on what to do next.
     click.secho("Created dataset ", nl=False, fg="green")
@@ -75,7 +77,7 @@ def readme():
 @dataset_path_argument
 def interactive(dataset_path):
     """Update the readme file interactively."""
-    dataset = dtoolcore.DataSet.from_path(dataset_path)
+    proto_dataset = dtoolcore.ProtoDataSet.from_uri(dataset_path)
 
     # Create an CommentedMap representation of the yaml readme template.
     yaml = YAML()
@@ -103,14 +105,14 @@ def interactive(dataset_path):
     prompt_for_values(descriptive_metadata)
 
     # Write out the descriptive metadata to the readme file.
-    with open(dataset.abs_readme_path, "w") as fh:
-        yaml.dump(descriptive_metadata, fh)
+    stream = StringIO()
+    yaml.dump(descriptive_metadata, stream)
+    proto_dataset.put_readme(stream.getvalue())
 
-    click.secho("Updated readme ", nl=False, fg="green")
-    click.secho(dataset.abs_readme_path)
+    click.secho("Updated readme ", fg="green")
     click.secho("To edit the readme using your default editor:")
     click.secho(
-        "dtool dataset readme edit {}".format(dataset._abs_path),
+        "dtool dataset readme edit {}".format(dataset_path),
         fg="cyan")
 
 
@@ -119,25 +121,15 @@ def interactive(dataset_path):
 def edit(dataset_path):
     """Edit the readme file with your default editor.
     """
-    dataset = dtoolcore.DataSet.from_path(dataset_path)
-    with open(dataset.abs_readme_path, "r") as fh:
-        readme_content = fh.read()
+    proto_dataset = dtoolcore.ProtoDataSet.from_uri(dataset_path)
+    readme_content = proto_dataset.get_readme_content()
     edited_content = click.edit(readme_content)
     if edited_content is not None:
-        with open(dataset.abs_readme_path, "w") as fh:
-            fh.write(edited_content)
-            click.secho("Updated readme ", nl=False, fg="green")
+        proto_dataset.put_readme(edited_content)
+        click.secho("Updated readme ", nl=False, fg="green")
     else:
         click.secho("Did not update readme ", nl=False, fg="red")
-    click.secho(dataset.abs_readme_path)
-
-
-@readme.command()
-@dataset_path_argument
-def showpath(dataset_path):
-    """Find out where the readme file lives."""
-    dataset = dtoolcore.DataSet.from_path(dataset_path)
-    click.secho(dataset.abs_readme_path)
+    click.secho(dataset_path)
 
 
 @click.command()
@@ -148,8 +140,17 @@ def freeze(dataset_path):
     This step is carried out after all files have been added to the dataset.
     Freezing a dataset finalizes it with a stamp marking it as frozen.
     """
-    dataset = dtoolcore.DataSet.from_path(dataset_path)
-    dataset.update_manifest()
-    # dataset.freeze()
+    try:
+        proto_dataset = dtoolcore.ProtoDataSet.from_uri(dataset_path)
+    except dtoolcore.DtoolCoreTypeError:
+        try:
+            dataset = dtoolcore.DataSet.from_uri(dataset_path)
+            click.secho("Dataset is already frozen at ", nl=False)
+            timestamp = float(dataset._admin_metadata["frozen_at"])
+            dt = datetime.datetime.fromtimestamp(timestamp)
+            click.secho(dt.strftime('%Y-%m-%d %H:%M:%S'))
+        finally:
+            sys.exit()
+    proto_dataset.freeze()
     click.secho("Dataset frozen ", nl=False, fg="green")
-    click.secho(dataset._abs_path)
+    click.secho(dataset_path)

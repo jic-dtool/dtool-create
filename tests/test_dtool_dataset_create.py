@@ -23,8 +23,6 @@ def test_dataset_create_functional(chdir_fixture):  # NOQA
     # Test that the dataset name is correct.
     assert dataset.name == dataset_name
 
-    # Test that the data directory is correct.
-    assert dataset.data_directory == "data"
 
 
 def test_dataset_create_fails_on_directory_exists(chdir_fixture):  # NOQA
