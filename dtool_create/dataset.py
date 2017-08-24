@@ -47,7 +47,7 @@ def create(new_dataset_path):
     """Create an empty dataset."""
     # Create the dataset.
     dataset_name = os.path.basename(new_dataset_path)
-    proto_dataset = dtoolcore.ProtoDataSet.create(
+    proto_dataset = dtoolcore.ProtoDataSet.new(
         uri=new_dataset_path, name=dataset_name)
 
     # Find the abspath of the data directory for user feedback.
