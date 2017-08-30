@@ -21,7 +21,7 @@ setup(
         "ruamel.yaml",
     ],
     entry_points={
-        "dtool.dataset": [
+        "dtool.cli": [
             "create=dtool_create.dataset:create",
             "readme=dtool_create.dataset:readme",
             "freeze=dtool_create.dataset:freeze",
