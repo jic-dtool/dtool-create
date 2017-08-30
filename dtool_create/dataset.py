@@ -39,6 +39,7 @@ def create_path(ctx, param, value):
             "File/directory already exists: {}".format(abspath))
     return abspath
 
+
 def dataset_uri_validation(ctx, param, value):
     if not dtoolcore._is_dataset(value, config_path=None):
         raise click.BadParameter(

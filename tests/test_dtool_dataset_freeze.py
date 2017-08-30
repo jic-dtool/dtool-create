@@ -1,14 +1,12 @@
 """Test the ``dtool dataset create`` command."""
 
 import os
-import shutil
 
 from click.testing import CliRunner
 
 from dtoolcore import DataSet, ProtoDataSet
 
 from . import chdir_fixture, tmp_dir_fixture  # NOQA
-from . import SAMPLE_FILES_DIR
 
 
 def test_dataset_freeze_functional(chdir_fixture):  # NOQA
@@ -31,7 +29,6 @@ def test_dataset_freeze_functional(chdir_fixture):  # NOQA
 
     result = runner.invoke(freeze, [dataset_uri])
     assert result.exit_code == 0
-
 
     # Now we have a dataset.
     dataset = DataSet.from_uri(dataset_uri)

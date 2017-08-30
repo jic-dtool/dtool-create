@@ -4,7 +4,7 @@ import os
 
 from click.testing import CliRunner
 
-from dtoolcore import ProtoDataSet, DataSet
+from dtoolcore import ProtoDataSet
 
 from . import chdir_fixture, tmp_dir_fixture  # NOQA
 
@@ -24,7 +24,6 @@ def test_dataset_create_functional(chdir_fixture):  # NOQA
 
     # Test that the dataset name is correct.
     assert dataset.name == dataset_name
-
 
 
 def test_dataset_create_fails_on_directory_exists(chdir_fixture):  # NOQA
