@@ -34,15 +34,10 @@ Security
 [0.2.0] 2017-08-30
 ------------------
 
-Basic scaffold to create a ``dtool`` client that uses the ``dtoolcore`` version
-2 API.
+Basic release with three commands that make use of the ``dtoolcore`` version
+2 API and ``dtool-cli``. It provides three commands that plug into the
+``dtool-cli`` version 0.2.0 ``dtool.cli`` entry point.
 
-Added
-^^^^^
-
-- Entry point for ``dtool.cli``
-
-Removed
-^^^^^^^
-
-- Entry points ``dtool.dataset`` and ``dtool.collection``
+- ``create`` - for creating a new proto dataset
+- ``readme`` - for editing the README.yml of the dataset
+- ``freeze`` - for converting a proto dataset into a dataset
