@@ -4,7 +4,7 @@ import os
 
 from click.testing import CliRunner
 
-from dtoolcore import DataSet
+from dtoolcore import ProtoDataSet, DataSet
 
 from . import chdir_fixture, tmp_dir_fixture  # NOQA
 
@@ -17,8 +17,10 @@ def test_dataset_create_functional(chdir_fixture):  # NOQA
     result = runner.invoke(create, [dataset_name])
     assert result.exit_code == 0
 
-    # Test that the dataset has been created.
-    dataset = DataSet.from_path(dataset_name)
+    # Test that the proto dataset has been created.
+    dataset_abspath = os.path.abspath(dataset_name)
+    dataset_uri = "disk:{}".format(dataset_abspath)
+    dataset = ProtoDataSet.from_uri(dataset_uri)
 
     # Test that the dataset name is correct.
     assert dataset.name == dataset_name
@@ -47,7 +49,8 @@ def test_dataset_create_can_work_outside_current_directory(tmp_dir_fixture):  # 
     assert result.exit_code == 0
 
     # Test that the dataset has been created.
-    dataset = DataSet.from_path(dataset_path)
+    dataset_uri = "disk:{}".format(dataset_path)
+    dataset = ProtoDataSet.from_uri(dataset_uri)
 
     # Test that the dataset name is correct.
     assert dataset.name == dataset_name
