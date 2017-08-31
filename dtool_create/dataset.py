@@ -160,7 +160,7 @@ def freeze(dataset_uri):
             click.secho("Dataset is already frozen at ", nl=False)
             timestamp = float(dataset._admin_metadata["frozen_at"])
             dt = datetime.datetime.fromtimestamp(timestamp)
-            click.secho(dt.strftime('%Y-%m-%d %H:%M:%S'))
+            click.secho(dt.strftime('%Y-%m-%d %H:%M:%S UTC'))
         finally:
             sys.exit()
     proto_dataset.freeze()
