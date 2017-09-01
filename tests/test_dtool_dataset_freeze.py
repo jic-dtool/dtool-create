@@ -10,7 +10,7 @@ from . import chdir_fixture, tmp_dir_fixture  # NOQA
 
 
 def test_dataset_freeze_functional(chdir_fixture):  # NOQA
-    from dtool_create.dataset import create, freeze
+    from dtool_create.dataset import create, freeze, put
     runner = CliRunner()
 
     dataset_name = "my_dataset"
@@ -22,10 +22,15 @@ def test_dataset_freeze_functional(chdir_fixture):  # NOQA
     dataset_uri = "disk:{}".format(dataset_abspath)
     dataset = ProtoDataSet.from_uri(dataset_uri)
 
-    # Add a file to the proto dataset.
-    sample_file_abspath = os.path.join(dataset_abspath, "data", "hello.txt")
-    with open(sample_file_abspath, "w") as fh:
+    # Create sample file to the proto dataset.
+    sample_file_name = "hello.txt"
+    with open(sample_file_name, "w") as fh:
         fh.write("hello world")
+
+    # Put it into the dataset
+
+    result = runner.invoke(put, [sample_file_name, dataset_uri])
+    assert result.exit_code == 0
 
     result = runner.invoke(freeze, [dataset_uri])
     assert result.exit_code == 0

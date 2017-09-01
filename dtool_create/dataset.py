@@ -88,7 +88,6 @@ def create(name, storage, prefix):
 
     proto_dataset.put_readme("")
 
-
     # Give the user some feedback and hints on what to do next.
     click.secho("Created dataset ", nl=False, fg="green")
     click.secho(dataset_uri)
@@ -174,6 +173,18 @@ def edit(dataset_uri):
     else:
         click.secho("Did not update readme ", nl=False, fg="red")
     click.secho(dataset_uri)
+
+
+@click.command()
+@click.argument("input_file", type=click.Path(exists=True))
+@dataset_uri_argument
+@click.argument("relpath_in_dataset", default="")
+def put(dataset_uri, input_file, relpath_in_dataset):
+    """Put a file into the dataset."""
+    proto_dataset = dtoolcore.ProtoDataSet.from_uri(dataset_uri)
+    if relpath_in_dataset == "":
+        relpath_in_dataset = os.path.basename(input_file)
+    proto_dataset.put_item(input_file, relpath_in_dataset)
 
 
 @click.command()

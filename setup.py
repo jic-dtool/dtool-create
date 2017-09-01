@@ -24,6 +24,7 @@ setup(
         "dtool.cli": [
             "create=dtool_create.dataset:create",
             "readme=dtool_create.dataset:readme",
+            "put=dtool_create.dataset:put",
             "freeze=dtool_create.dataset:freeze",
         ],
     },
