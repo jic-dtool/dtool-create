@@ -41,9 +41,17 @@ def create_path(ctx, param, value):
 
 
 def dataset_uri_validation(ctx, param, value):
-    if not dtoolcore._is_dataset(value, config_path=None):
+    if not dtoolcore._is_dataset(value, config=None):
         raise click.BadParameter(
             "URI is not a dataset: {}".format(value))
+    return value
+
+
+def storagebroker_validation(ctx, param, value):
+    storage_broker_lookup = dtoolcore._generate_storage_broker_lookup()
+    if value not in storage_broker_lookup:
+        raise click.BadParameter(
+            "'{}' not in {}".format(value, storage_broker_lookup.keys()))
     return value
 
 dataset_uri_argument = click.argument(
@@ -53,21 +61,39 @@ dataset_uri_argument = click.argument(
 
 
 @click.command()
-@click.argument("new_dataset_path", callback=create_path)
-def create(new_dataset_path):
+@click.argument("name")
+@click.argument("prefix", default="")
+@click.argument("storage", default="disk", callback=storagebroker_validation)
+def create(name, storage, prefix):
     """Create an empty dataset."""
+    admin_metadata = dtoolcore.generate_admin_metadata(name)
+    dataset_uuid = admin_metadata["uuid"]
+
+    # Get the right storage broker and use it to generate a URI.
+    storage_broker_lookup = dtoolcore._generate_storage_broker_lookup()
+    storage_broker = storage_broker_lookup[storage]
+    dataset_uri = storage_broker.generate_uri(name, dataset_uuid, prefix)
+
     # Create the dataset.
-    dataset_name = os.path.basename(new_dataset_path)
-    dataset_uri = "disk:{}".format(new_dataset_path)
-    proto_dataset = dtoolcore.ProtoDataSet.new(
-        uri=dataset_uri, name=dataset_name)
+    proto_dataset = dtoolcore.ProtoDataSet(
+        uri=dataset_uri,
+        admin_metadata=admin_metadata,
+        config=None)
+    try:
+        proto_dataset.create()
+    except:
+        raise click.UsageError(
+            "'{}' already exists: {}".format(
+                name, dataset_uri))
+
+    proto_dataset.put_readme("")
 
     # Find the abspath of the data directory for user feedback.
     data_path = proto_dataset._storage_broker._data_abspath
 
     # Give the user some feedback and hints on what to do next.
     click.secho("Created dataset ", nl=False, fg="green")
-    click.secho(new_dataset_path)
+    click.secho(dataset_uri)
     click.secho("Next steps: ")
     click.secho("1. Add descriptive metadata, e.g: ")
     click.secho(
