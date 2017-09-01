@@ -88,8 +88,6 @@ def create(name, storage, prefix):
 
     proto_dataset.put_readme("")
 
-    # Find the abspath of the data directory for user feedback.
-    data_path = proto_dataset._storage_broker._data_abspath
 
     # Give the user some feedback and hints on what to do next.
     click.secho("Created dataset ", nl=False, fg="green")
@@ -99,8 +97,16 @@ def create(name, storage, prefix):
     click.secho(
         "dtool readme interactive {}".format(dataset_uri),
         fg="cyan")
-    click.secho("2. Add raw data, e.g: ")
-    click.secho("mv my_data_directory {}/".format(data_path), fg="cyan")
+    click.secho("2. Add raw data", nl=False)
+
+    if storage == "disk":
+        # Find the abspath of the data directory for user feedback.
+        data_path = proto_dataset._storage_broker._data_abspath
+        click.secho(", e.g: ")
+        click.secho("mv my_data_directory {}/".format(data_path), fg="cyan")
+    else:
+        click.secho("")
+
     click.secho("3. Freeze the dataset: ")
     click.secho("dtool freeze {}".format(dataset_uri), fg="cyan")
 
