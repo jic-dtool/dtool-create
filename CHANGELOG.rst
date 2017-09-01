@@ -31,6 +31,24 @@ Security
 ^^^^^^^^
 
 
+[0.3.0] 2017-09-01
+------------------
+
+Added
+^^^^^
+
+- The ``dtool create`` now works with storage broker plugins
+
+Fixed
+^^^^^
+
+- Make ``dtool create`` work with version 2.1 of the ``dtoolcore`` API
+
+
+Security
+^^^^^^^^
+
+
 [0.2.0] 2017-08-30
 ------------------
 

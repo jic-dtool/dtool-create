@@ -35,7 +35,7 @@ def test_dataset_create_fails_on_directory_exists(chdir_fixture):  # NOQA
     result = runner.invoke(create, [dataset_name])
     assert result.exit_code != 0
     assert result.output.startswith("Usage")
-    assert result.output.find("File/directory already exists") != -1
+    assert result.output.find("already exists") != -1
 
 
 def test_dataset_create_can_work_outside_current_directory(tmp_dir_fixture):  # NOQA
@@ -44,7 +44,7 @@ def test_dataset_create_can_work_outside_current_directory(tmp_dir_fixture):  # 
 
     dataset_name = "my_dataset"
     dataset_path = os.path.join(tmp_dir_fixture, dataset_name)
-    result = runner.invoke(create, [dataset_path])
+    result = runner.invoke(create, [dataset_name, tmp_dir_fixture])
     assert result.exit_code == 0
 
     # Test that the dataset has been created.
