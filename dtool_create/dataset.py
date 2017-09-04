@@ -94,20 +94,21 @@ def create(name, storage, prefix):
     click.secho("Next steps: ")
     click.secho("1. Add descriptive metadata, e.g: ")
     click.secho(
-        "dtool readme interactive {}".format(dataset_uri),
+        "   dtool readme interactive {}".format(dataset_uri),
         fg="cyan")
-    click.secho("2. Add raw data", nl=False)
+    click.secho("2. Add raw data, eg:")
+    click.secho(
+        "   dtool put my_file.txt {}".format(dataset_uri),
+        fg="cyan")
 
     if storage == "disk":
         # Find the abspath of the data directory for user feedback.
         data_path = proto_dataset._storage_broker._data_abspath
-        click.secho(", e.g: ")
-        click.secho("mv my_data_directory {}/".format(data_path), fg="cyan")
-    else:
-        click.secho("")
+        click.secho("   Or use your system commands, e.g: ")
+        click.secho("   mv my_data_directory {}/".format(data_path), fg="cyan")
 
     click.secho("3. Freeze the dataset: ")
-    click.secho("dtool freeze {}".format(dataset_uri), fg="cyan")
+    click.secho("   dtool freeze {}".format(dataset_uri), fg="cyan")
 
 
 @click.group()
