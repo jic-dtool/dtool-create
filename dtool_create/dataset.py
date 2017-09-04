@@ -98,7 +98,7 @@ def create(name, storage, prefix):
         fg="cyan")
     click.secho("2. Add raw data, eg:")
     click.secho(
-        "   dtool put my_file.txt {}".format(dataset_uri),
+        "   dtool add item my_file.txt {}".format(dataset_uri),
         fg="cyan")
 
     if storage == "disk":
@@ -176,16 +176,34 @@ def edit(dataset_uri):
     click.secho(dataset_uri)
 
 
-@click.command()
+@click.group()
+def add():
+    """Add items and item metadata."""
+
+@add.command()
 @click.argument("input_file", type=click.Path(exists=True))
 @dataset_uri_argument
 @click.argument("relpath_in_dataset", default="")
-def put(dataset_uri, input_file, relpath_in_dataset):
-    """Put a file into the dataset."""
+def item(dataset_uri, input_file, relpath_in_dataset):
+    """Add a file to the dataset."""
     proto_dataset = dtoolcore.ProtoDataSet.from_uri(dataset_uri)
     if relpath_in_dataset == "":
         relpath_in_dataset = os.path.basename(input_file)
     proto_dataset.put_item(input_file, relpath_in_dataset)
+
+
+@add.command()
+@dataset_uri_argument
+@click.argument("relpath_in_dataset")
+@click.argument("key")
+@click.argument("value")
+def metadata(dataset_uri, relpath_in_dataset, key, value):
+    """Add metadata to a file in the dataset."""
+    proto_dataset = dtoolcore.ProtoDataSet.from_uri(dataset_uri)
+    proto_dataset.add_item_metadata(
+        handle=relpath_in_dataset,
+        key=key,
+        value=value)
 
 
 @click.command()
