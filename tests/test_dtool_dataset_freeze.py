@@ -10,7 +10,7 @@ from . import chdir_fixture, tmp_dir_fixture  # NOQA
 
 
 def test_dataset_freeze_functional(chdir_fixture):  # NOQA
-    from dtool_create.dataset import create, freeze, put
+    from dtool_create.dataset import create, freeze, add
     runner = CliRunner()
 
     dataset_name = "my_dataset"
@@ -29,7 +29,7 @@ def test_dataset_freeze_functional(chdir_fixture):  # NOQA
 
     # Put it into the dataset
 
-    result = runner.invoke(put, [sample_file_name, dataset_uri])
+    result = runner.invoke(add, ["item", sample_file_name, dataset_uri])
     assert result.exit_code == 0
 
     result = runner.invoke(freeze, [dataset_uri])
