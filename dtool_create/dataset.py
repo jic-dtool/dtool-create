@@ -215,19 +215,6 @@ def metadata(dataset_uri, relpath_in_dataset, key, value):
         value=value)
 
 
-@click.group()
-def item():
-    """Retrieve item information."""
-
-@item.command()
-@dataset_uri_argument
-@click.argument("identifier")
-def abspath(dataset_uri, identifier):
-    """Return absolute path at which item content can be accessed."""
-    dataset = dtoolcore.DataSet.from_uri(dataset_uri)
-    click.secho(dataset.item_content_abspath(identifier))
-
-
 @click.command()
 @dataset_uri_argument
 def freeze(dataset_uri):

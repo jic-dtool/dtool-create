@@ -10,7 +10,6 @@ This change log uses principles from `keep a changelog <http://keepachangelog.co
 Added
 ^^^^^
 
-- ``dtool add item`` command
 - ``dtool add metadata`` command
 - Configuration file support
 

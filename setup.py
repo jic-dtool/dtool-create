@@ -26,7 +26,6 @@ setup(
             "readme=dtool_create.dataset:readme",
             "add=dtool_create.dataset:add",
             "freeze=dtool_create.dataset:freeze",
-            "item=dtool_create.dataset:item",
         ],
     },
     download_url="{}/tarball/{}".format(url, version),
