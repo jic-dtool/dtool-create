@@ -10,9 +10,6 @@ This change log uses principles from `keep a changelog <http://keepachangelog.co
 Added
 ^^^^^
 
-- ``dtool add metadata`` command
-- Configuration file support
-
 
 Changed
 ^^^^^^^
@@ -30,8 +27,27 @@ Fixed
 ^^^^^
 
 
+
 Security
 ^^^^^^^^
+
+
+[0.4.0] 2017-09-05
+------------------
+
+Added
+^^^^^
+
+- ``dtool add item`` command
+- ``dtool add metadata`` command
+- Configuration file support
+
+
+Changed
+^^^^^^^
+
+- URI for DiskStorageBroker now assumed to be
+  ``file:///some/path`` or ``/some/path``
 
 
 [0.3.0] 2017-09-01
