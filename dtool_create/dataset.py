@@ -7,6 +7,11 @@ import datetime
 
 from StringIO import StringIO
 
+try:
+    from urlparse import urlparse
+except ImportError:
+    from urllib.parse import urlparse
+
 import click
 import dtoolcore
 
@@ -237,3 +242,34 @@ def freeze(dataset_uri):
     proto_dataset.freeze()
     click.secho("Dataset frozen ", nl=False, fg="green")
     click.secho(dataset_uri)
+
+
+@click.command()
+@dataset_uri_argument
+@click.argument("prefix", default="")
+@click.argument("storage", default="file", callback=storagebroker_validation)
+def copy(dataset_uri, prefix, storage):
+    """Copy a dataset to a different location."""
+    # Check if the destination URI is already a dataset
+    # and exit gracefully if true.
+    src_dataset = dtoolcore.DataSet.from_uri(dataset_uri)
+    dest_uri = dtoolcore._generate_uri(
+        admin_metadata = src_dataset._admin_metadata,
+        prefix=prefix,
+        storage=storage)
+    if dtoolcore._is_dataset(dest_uri, config_path=CONFIG_PATH):
+        raise click.UsageError(
+            "Dataset already exists: {}".format(dest_uri))
+
+    # If the destination URI is a "file" dataset one needs to check if
+    # the path already exists and exit gracefully if true.
+    parsed_uri = urlparse(dest_uri)
+    if parsed_uri.scheme == "" or parsed_uri.scheme == "file":
+        if os.path.exists(parsed_uri.path):
+            raise click.UsageError(
+                "Path already exists: {}".format(parsed_uri.path))
+
+
+    # Finally do the copy
+    dest_uri = dtoolcore.copy(dataset_uri, prefix, storage, CONFIG_PATH)
+    click.secho("Dataset copied to {}".format(dest_uri))
