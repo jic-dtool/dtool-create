@@ -12,6 +12,7 @@ Added
 
 - ``dtool add item`` command
 - ``dtool add metadata`` command
+- Configuration file support
 
 
 Changed

@@ -13,6 +13,7 @@ import dtoolcore
 from ruamel.yaml import YAML
 from ruamel.yaml.comments import CommentedMap
 
+CONFIG_PATH = os.path.expanduser("~/.config/dtool/dtool.json")
 
 README_TEMPLATE = """---
 description: Dataset description
@@ -41,7 +42,7 @@ def create_path(ctx, param, value):
 
 
 def dataset_uri_validation(ctx, param, value):
-    if not dtoolcore._is_dataset(value, config=None):
+    if not dtoolcore._is_dataset(value, config_path=CONFIG_PATH):
         raise click.BadParameter(
             "URI is not a dataset: {}".format(value))
     return value
@@ -78,7 +79,7 @@ def create(name, storage, prefix):
     proto_dataset = dtoolcore.ProtoDataSet(
         uri=dataset_uri,
         admin_metadata=admin_metadata,
-        config=None)
+        config_path=CONFIG_PATH)
     try:
         proto_dataset.create()
     except:
@@ -121,7 +122,9 @@ def readme():
 @dataset_uri_argument
 def interactive(dataset_uri):
     """Update the readme file interactively."""
-    proto_dataset = dtoolcore.ProtoDataSet.from_uri(dataset_uri)
+    proto_dataset = dtoolcore.ProtoDataSet.from_uri(
+        uri=dataset_uri,
+        config_path=CONFIG_PATH)
 
     # Create an CommentedMap representation of the yaml readme template.
     yaml = YAML()
@@ -165,7 +168,9 @@ def interactive(dataset_uri):
 def edit(dataset_uri):
     """Edit the readme file with your default editor.
     """
-    proto_dataset = dtoolcore.ProtoDataSet.from_uri(dataset_uri)
+    proto_dataset = dtoolcore.ProtoDataSet.from_uri(
+        uri=dataset_uri,
+        config_path=CONFIG_PATH)
     readme_content = proto_dataset.get_readme_content()
     edited_content = click.edit(readme_content)
     if edited_content is not None:
@@ -186,7 +191,9 @@ def add():
 @click.argument("relpath_in_dataset", default="")
 def item(dataset_uri, input_file, relpath_in_dataset):
     """Add a file to the dataset."""
-    proto_dataset = dtoolcore.ProtoDataSet.from_uri(dataset_uri)
+    proto_dataset = dtoolcore.ProtoDataSet.from_uri(
+        dataset_uri,
+        config_path=CONFIG_PATH)
     if relpath_in_dataset == "":
         relpath_in_dataset = os.path.basename(input_file)
     proto_dataset.put_item(input_file, relpath_in_dataset)
@@ -199,7 +206,9 @@ def item(dataset_uri, input_file, relpath_in_dataset):
 @click.argument("value")
 def metadata(dataset_uri, relpath_in_dataset, key, value):
     """Add metadata to a file in the dataset."""
-    proto_dataset = dtoolcore.ProtoDataSet.from_uri(dataset_uri)
+    proto_dataset = dtoolcore.ProtoDataSet.from_uri(
+        uri=dataset_uri,
+        config_path=CONFIG_PATH)
     proto_dataset.add_item_metadata(
         handle=relpath_in_dataset,
         key=key,
@@ -215,10 +224,14 @@ def freeze(dataset_uri):
     Freezing a dataset finalizes it with a stamp marking it as frozen.
     """
     try:
-        proto_dataset = dtoolcore.ProtoDataSet.from_uri(dataset_uri)
+        proto_dataset = dtoolcore.ProtoDataSet.from_uri(
+            uri=dataset_uri,
+            config_path=CONFIG_PATH)
     except dtoolcore.DtoolCoreTypeError:
         try:
-            dataset = dtoolcore.DataSet.from_uri(dataset_uri)
+            dataset = dtoolcore.DataSet.from_uri(
+                uri=dataset_uri,
+                config_path=CONFIG_PATH)
             click.secho("Dataset is already frozen at ", nl=False)
             timestamp = float(dataset._admin_metadata["frozen_at"])
             dt = datetime.datetime.fromtimestamp(timestamp)
