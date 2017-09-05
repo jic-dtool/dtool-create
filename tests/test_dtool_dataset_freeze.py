@@ -19,7 +19,7 @@ def test_dataset_freeze_functional(chdir_fixture):  # NOQA
 
     # At this point we have a proto dataset
     dataset_abspath = os.path.abspath(dataset_name)
-    dataset_uri = "disk:{}".format(dataset_abspath)
+    dataset_uri = "file://{}".format(dataset_abspath)
     dataset = ProtoDataSet.from_uri(dataset_uri)
 
     # Create sample file to the proto dataset.

@@ -64,7 +64,7 @@ dataset_uri_argument = click.argument(
 @click.command()
 @click.argument("name")
 @click.argument("prefix", default="")
-@click.argument("storage", default="disk", callback=storagebroker_validation)
+@click.argument("storage", default="file", callback=storagebroker_validation)
 def create(name, storage, prefix):
     """Create an empty dataset."""
     admin_metadata = dtoolcore.generate_admin_metadata(name)
@@ -102,7 +102,7 @@ def create(name, storage, prefix):
         "   dtool add item my_file.txt {}".format(dataset_uri),
         fg="cyan")
 
-    if storage == "disk":
+    if storage == "file":
         # Find the abspath of the data directory for user feedback.
         data_path = proto_dataset._storage_broker._data_abspath
         click.secho("   Or use your system commands, e.g: ")
@@ -213,6 +213,19 @@ def metadata(dataset_uri, relpath_in_dataset, key, value):
         handle=relpath_in_dataset,
         key=key,
         value=value)
+
+
+@click.group()
+def item():
+    """Retrieve item information."""
+
+@item.command()
+@dataset_uri_argument
+@click.argument("identifier")
+def abspath(dataset_uri, identifier):
+    """Return absolute path at which item content can be accessed."""
+    dataset = dtoolcore.DataSet.from_uri(dataset_uri)
+    click.secho(dataset.item_content_abspath(identifier))
 
 
 @click.command()

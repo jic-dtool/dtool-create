@@ -19,7 +19,7 @@ def test_dataset_create_functional(chdir_fixture):  # NOQA
 
     # Test that the proto dataset has been created.
     dataset_abspath = os.path.abspath(dataset_name)
-    dataset_uri = "disk:{}".format(dataset_abspath)
+    dataset_uri = "file://{}".format(dataset_abspath)
     dataset = ProtoDataSet.from_uri(dataset_uri)
 
     # Test that the dataset name is correct.
@@ -48,7 +48,7 @@ def test_dataset_create_can_work_outside_current_directory(tmp_dir_fixture):  # 
     assert result.exit_code == 0
 
     # Test that the dataset has been created.
-    dataset_uri = "disk:{}".format(dataset_path)
+    dataset_uri = "file://{}".format(dataset_path)
     dataset = ProtoDataSet.from_uri(dataset_uri)
 
     # Test that the dataset name is correct.
