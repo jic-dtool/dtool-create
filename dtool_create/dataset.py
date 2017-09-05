@@ -68,38 +68,33 @@ dataset_uri_argument = click.argument(
 def create(name, storage, prefix):
     """Create an empty dataset."""
     admin_metadata = dtoolcore.generate_admin_metadata(name)
-    dataset_uuid = admin_metadata["uuid"]
-
-    # Get the right storage broker and use it to generate a URI.
-    storage_broker_lookup = dtoolcore._generate_storage_broker_lookup()
-    storage_broker = storage_broker_lookup[storage]
-    dataset_uri = storage_broker.generate_uri(name, dataset_uuid, prefix)
 
     # Create the dataset.
-    proto_dataset = dtoolcore.ProtoDataSet(
-        uri=dataset_uri,
+    proto_dataset = dtoolcore.generate_proto_dataset(
         admin_metadata=admin_metadata,
+        prefix=prefix,
+        storage=storage,
         config_path=CONFIG_PATH)
     try:
         proto_dataset.create()
     except:
         raise click.UsageError(
             "'{}' already exists: {}".format(
-                name, dataset_uri))
+                name, proto_dataset.uri))
 
     proto_dataset.put_readme("")
 
     # Give the user some feedback and hints on what to do next.
     click.secho("Created dataset ", nl=False, fg="green")
-    click.secho(dataset_uri)
+    click.secho(proto_dataset.uri)
     click.secho("Next steps: ")
     click.secho("1. Add descriptive metadata, e.g: ")
     click.secho(
-        "   dtool readme interactive {}".format(dataset_uri),
+        "   dtool readme interactive {}".format(proto_dataset.uri),
         fg="cyan")
     click.secho("2. Add raw data, eg:")
     click.secho(
-        "   dtool add item my_file.txt {}".format(dataset_uri),
+        "   dtool add item my_file.txt {}".format(proto_dataset.uri),
         fg="cyan")
 
     if storage == "file":
@@ -109,7 +104,7 @@ def create(name, storage, prefix):
         click.secho("   mv my_data_directory {}/".format(data_path), fg="cyan")
 
     click.secho("3. Freeze the dataset: ")
-    click.secho("   dtool freeze {}".format(dataset_uri), fg="cyan")
+    click.secho("   dtool freeze {}".format(proto_dataset.uri), fg="cyan")
 
 
 @click.group()
