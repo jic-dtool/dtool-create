@@ -185,6 +185,7 @@ def edit(dataset_uri):
 def add():
     """Add items and item metadata."""
 
+
 @add.command()
 @click.argument("input_file", type=click.Path(exists=True))
 @dataset_uri_argument
