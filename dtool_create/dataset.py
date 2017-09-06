@@ -89,26 +89,39 @@ def create(name, storage, prefix):
 
     proto_dataset.put_readme("")
 
+    if storage == "virtual":
+        data_location = click.prompt(
+            "Enter path to data",
+            type=click.Path(exists=True)
+        )
+        proto_dataset.set_data_location(data_location)
+
     # Give the user some feedback and hints on what to do next.
     click.secho("Created dataset ", nl=False, fg="green")
     click.secho(proto_dataset.uri)
     click.secho("Next steps: ")
-    click.secho("1. Add descriptive metadata, e.g: ")
+
+    step = 1
+    click.secho("{}. Add descriptive metadata, e.g: ".format(step))
     click.secho(
         "   dtool readme interactive {}".format(proto_dataset.uri),
         fg="cyan")
-    click.secho("2. Add raw data, eg:")
-    click.secho(
-        "   dtool add item my_file.txt {}".format(proto_dataset.uri),
-        fg="cyan")
 
-    if storage == "file":
-        # Find the abspath of the data directory for user feedback.
-        data_path = proto_dataset._storage_broker._data_abspath
-        click.secho("   Or use your system commands, e.g: ")
-        click.secho("   mv my_data_directory {}/".format(data_path), fg="cyan")
+    if storage != "virtual":
+        step = step + 1
+        click.secho("{}. Add raw data, eg:".format(step))
+        click.secho(
+            "   dtool add item my_file.txt {}".format(proto_dataset.uri),
+            fg="cyan")
 
-    click.secho("3. Freeze the dataset: ")
+        if storage == "file":
+            # Find the abspath of the data directory for user feedback.
+            data_path = proto_dataset._storage_broker._data_abspath
+            click.secho("   Or use your system commands, e.g: ")
+            click.secho("   mv my_data_directory {}/".format(data_path), fg="cyan")
+
+    step = step + 1
+    click.secho("{}. Freeze the dataset: ".format(step))
     click.secho("   dtool freeze {}".format(proto_dataset.uri), fg="cyan")
 
 
