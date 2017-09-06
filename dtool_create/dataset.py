@@ -254,7 +254,7 @@ def copy(dataset_uri, prefix, storage):
     # and exit gracefully if true.
     src_dataset = dtoolcore.DataSet.from_uri(dataset_uri)
     dest_uri = dtoolcore._generate_uri(
-        admin_metadata = src_dataset._admin_metadata,
+        admin_metadata=src_dataset._admin_metadata,
         prefix=prefix,
         storage=storage)
     if dtoolcore._is_dataset(dest_uri, config_path=CONFIG_PATH):
@@ -268,7 +268,6 @@ def copy(dataset_uri, prefix, storage):
         if os.path.exists(parsed_uri.path):
             raise click.UsageError(
                 "Path already exists: {}".format(parsed_uri.path))
-
 
     # Finally do the copy
     dest_uri = dtoolcore.copy(dataset_uri, prefix, storage, CONFIG_PATH)
