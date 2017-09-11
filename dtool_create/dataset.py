@@ -89,13 +89,6 @@ def create(name, storage, prefix):
 
     proto_dataset.put_readme("")
 
-    if storage == "virtual":
-        data_location = click.prompt(
-            "Enter path to data",
-            type=click.Path(exists=True)
-        )
-        proto_dataset.set_data_location(data_location)
-
     # Give the user some feedback and hints on what to do next.
     click.secho("Created dataset ", nl=False, fg="green")
     click.secho(proto_dataset.uri)
@@ -107,7 +100,7 @@ def create(name, storage, prefix):
         "   dtool readme interactive {}".format(proto_dataset.uri),
         fg="cyan")
 
-    if storage != "virtual":
+    if storage != "symlink":
         step = step + 1
         click.secho("{}. Add raw data, eg:".format(step))
         click.secho(
