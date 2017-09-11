@@ -111,7 +111,10 @@ def create(name, storage, prefix):
             # Find the abspath of the data directory for user feedback.
             data_path = proto_dataset._storage_broker._data_abspath
             click.secho("   Or use your system commands, e.g: ")
-            click.secho("   mv my_data_directory {}/".format(data_path), fg="cyan")
+            click.secho(
+                "   mv my_data_directory {}/".format(data_path),
+                fg="cyan"
+            )
 
     step = step + 1
     click.secho("{}. Freeze the dataset: ".format(step))
