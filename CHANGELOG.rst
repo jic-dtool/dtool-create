@@ -11,6 +11,7 @@ Added
 ^^^^^
 
 - ``dtool copy`` command
+- Improved user feedback when creating a ``symlink`` dataset
 
 
 Changed
