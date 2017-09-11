@@ -4,14 +4,12 @@ CHANGELOG
 This project uses `semantic versioning <http://semver.org/>`_.
 This change log uses principles from `keep a changelog <http://keepachangelog.com/>`_.
 
+
 [Unreleased]
 ------------
 
 Added
 ^^^^^
-
-- ``dtool copy`` command
-- Improved user feedback when creating a ``symlink`` dataset
 
 
 Changed
@@ -30,9 +28,18 @@ Fixed
 ^^^^^
 
 
-
 Security
 ^^^^^^^^
+
+
+[0.5.0] 2017-09-11
+------------------
+
+Added
+^^^^^
+
+- ``dtool copy`` command
+- Improved user feedback when creating a ``symlink`` dataset
 
 
 [0.4.0] 2017-09-05
