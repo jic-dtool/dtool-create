@@ -11,6 +11,9 @@ This change log uses principles from `keep a changelog <http://keepachangelog.co
 Added
 ^^^^^
 
+- Progress bar to ``dtool freeze``
+- Progress bar to ``dtool copy``
+
 
 Changed
 ^^^^^^^
