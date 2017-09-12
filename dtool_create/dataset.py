@@ -239,7 +239,9 @@ def freeze(dataset_uri):
             click.secho(dt.strftime('%Y-%m-%d %H:%M:%S UTC'))
         finally:
             sys.exit()
-    proto_dataset.freeze()
+    with click.progressbar(length=len(list(proto_dataset._identifiers())),
+                           label="Generating manifest") as progressbar:
+        proto_dataset.freeze(progressbar=progressbar)
     click.secho("Dataset frozen ", nl=False, fg="green")
     click.secho(dataset_uri)
 
@@ -270,5 +272,14 @@ def copy(dataset_uri, prefix, storage):
                 "Path already exists: {}".format(parsed_uri.path))
 
     # Finally do the copy
-    dest_uri = dtoolcore.copy(dataset_uri, prefix, storage, CONFIG_PATH)
+    num_items = len(list(src_dataset.identifiers))
+    with click.progressbar(length=num_items*2,
+                           label="Copying dataset") as progressbar:
+        dest_uri = dtoolcore.copy(
+            dataset_uri,
+            prefix,
+            storage,
+            CONFIG_PATH,
+            progressbar)
+
     click.secho("Dataset copied to {}".format(dest_uri))
