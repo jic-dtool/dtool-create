@@ -1,4 +1,4 @@
-"""dataset command line module."""
+"""Commands for creating datasets."""
 
 import sys
 import os
@@ -18,7 +18,10 @@ import dtoolcore
 from ruamel.yaml import YAML
 from ruamel.yaml.comments import CommentedMap
 
-CONFIG_PATH = os.path.expanduser("~/.config/dtool/dtool.json")
+from dtool_cli.cli import (
+    dataset_uri_argument,
+    CONFIG_PATH,
+)
 
 README_TEMPLATE = """---
 description: Dataset description
@@ -46,24 +49,12 @@ def create_path(ctx, param, value):
     return abspath
 
 
-def dataset_uri_validation(ctx, param, value):
-    if not dtoolcore._is_dataset(value, config_path=CONFIG_PATH):
-        raise click.BadParameter(
-            "URI is not a dataset: {}".format(value))
-    return value
-
-
 def storagebroker_validation(ctx, param, value):
     storage_broker_lookup = dtoolcore._generate_storage_broker_lookup()
     if value not in storage_broker_lookup:
         raise click.BadParameter(
             "'{}' not in {}".format(value, storage_broker_lookup.keys()))
     return value
-
-dataset_uri_argument = click.argument(
-    "dataset_uri",
-    callback=dataset_uri_validation
-)
 
 
 @click.command()
