@@ -1,7 +1,7 @@
 README
 ======
 
-Dtool plugin for creating datasets and collections
+Dtool plugin for creating datasets.
 
 To install the dtool-create package.
 
