@@ -8,7 +8,7 @@ setup(
     name="dtool-create",
     packages=["dtool_create"],
     version=version,
-    description="Dtool plugin for creating datasets and collections",
+    description="Dtool plugin for creating datasets",
     long_description=readme,
     include_package_data=True,
     author="Tjelvar Olsson",
