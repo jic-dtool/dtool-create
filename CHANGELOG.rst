@@ -11,9 +11,6 @@ This change log uses principles from `keep a changelog <http://keepachangelog.co
 Added
 ^^^^^
 
-- Progress bar to ``dtool freeze``
-- Progress bar to ``dtool copy``
-
 
 Changed
 ^^^^^^^
@@ -47,8 +44,8 @@ Added
 
 
 
-[0.5.0] 2017-09-11
-------------------
+[0.5.0] - 2017-09-11
+--------------------
 
 Added
 ^^^^^
@@ -57,8 +54,8 @@ Added
 - Improved user feedback when creating a ``symlink`` dataset
 
 
-[0.4.0] 2017-09-05
-------------------
+[0.4.0] - 2017-09-05
+--------------------
 
 Added
 ^^^^^
@@ -75,8 +72,8 @@ Changed
   ``file:///some/path`` or ``/some/path``
 
 
-[0.3.0] 2017-09-01
-------------------
+[0.3.0] - 2017-09-01
+--------------------
 
 Added
 ^^^^^
@@ -93,8 +90,8 @@ Security
 ^^^^^^^^
 
 
-[0.2.0] 2017-08-30
-------------------
+[0.2.0] - 2017-08-30
+--------------------
 
 Basic release with three commands that make use of the ``dtoolcore`` version
 2 API and ``dtool-cli``. It provides three commands that plug into the
