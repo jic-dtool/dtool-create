@@ -35,6 +35,18 @@ Security
 ^^^^^^^^
 
 
+[0.6.0] - 2017-09-13
+--------------------
+
+Added
+^^^^^
+
+- Progress bar to ``dtool freeze``
+- Progress bar to ``dtool copy``
+
+
+
+
 [0.5.0] 2017-09-11
 ------------------
 
