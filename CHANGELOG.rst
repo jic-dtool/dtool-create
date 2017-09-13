@@ -41,7 +41,10 @@ Added
 - Progress bar to ``dtool freeze``
 - Progress bar to ``dtool copy``
 
+Fixed
+^^^^^
 
+- Made code Python 3 compatible
 
 
 [0.5.0] - 2017-09-11
