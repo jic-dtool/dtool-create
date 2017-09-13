@@ -5,7 +5,10 @@ import os
 import getpass
 import datetime
 
-from StringIO import StringIO
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
 
 try:
     from urlparse import urlparse
