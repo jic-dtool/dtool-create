@@ -1,4 +1,4 @@
-"""Test the ``dtool dataset create`` command."""
+"""Test the ``dtool create`` command."""
 
 import os
 

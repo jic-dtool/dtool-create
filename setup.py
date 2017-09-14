@@ -23,6 +23,7 @@ setup(
     entry_points={
         "dtool.cli": [
             "create=dtool_create.dataset:create",
+            "name=dtool_create.dataset:name",
             "readme=dtool_create.dataset:readme",
             "add=dtool_create.dataset:add",
             "freeze=dtool_create.dataset:freeze",
