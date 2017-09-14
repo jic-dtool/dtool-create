@@ -23,6 +23,7 @@ from ruamel.yaml.comments import CommentedMap
 
 from dtool_cli.cli import (
     dataset_uri_argument,
+    storagebroker_validation,
     CONFIG_PATH,
 )
 
@@ -50,14 +51,6 @@ def create_path(ctx, param, value):
         raise click.BadParameter(
             "File/directory already exists: {}".format(abspath))
     return abspath
-
-
-def storagebroker_validation(ctx, param, value):
-    storage_broker_lookup = dtoolcore._generate_storage_broker_lookup()
-    if value not in storage_broker_lookup:
-        raise click.BadParameter(
-            "'{}' not in {}".format(value, storage_broker_lookup.keys()))
-    return value
 
 
 @click.command()
