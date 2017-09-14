@@ -27,6 +27,8 @@ Removed
 Fixed
 ^^^^^
 
+- Made distinction between proto dataset and dataset cleared in dtool help and feedback
+
 
 Security
 ^^^^^^^^

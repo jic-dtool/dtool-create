@@ -65,7 +65,7 @@ def storagebroker_validation(ctx, param, value):
 @click.argument("prefix", default="")
 @click.argument("storage", default="file", callback=storagebroker_validation)
 def create(name, storage, prefix):
-    """Create an empty dataset."""
+    """Create a proto dataset."""
     admin_metadata = dtoolcore.generate_admin_metadata(name)
 
     # Create the dataset.
@@ -84,7 +84,7 @@ def create(name, storage, prefix):
     proto_dataset.put_readme("")
 
     # Give the user some feedback and hints on what to do next.
-    click.secho("Created dataset ", nl=False, fg="green")
+    click.secho("Created proto dataset ", nl=False, fg="green")
     click.secho(proto_dataset.uri)
     click.secho("Next steps: ")
 
@@ -111,7 +111,7 @@ def create(name, storage, prefix):
             )
 
     step = step + 1
-    click.secho("{}. Freeze the dataset: ".format(step))
+    click.secho("{}. Convert the proto dataset into a dataset: ".format(step))
     click.secho("   dtool freeze {}".format(proto_dataset.uri), fg="cyan")
 
 
@@ -222,7 +222,7 @@ def metadata(dataset_uri, relpath_in_dataset, key, value):
 @click.command()
 @dataset_uri_argument
 def freeze(dataset_uri):
-    """Finalise a dataset.
+    """Convert a proto dataset into a dataset.
 
     This step is carried out after all files have been added to the dataset.
     Freezing a dataset finalizes it with a stamp marking it as frozen.
