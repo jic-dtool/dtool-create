@@ -11,7 +11,6 @@ This change log uses principles from `keep a changelog <http://keepachangelog.co
 Added
 ^^^^^
 
-- ``dtool name`` command
 
 
 Changed
@@ -29,11 +28,23 @@ Removed
 Fixed
 ^^^^^
 
-- Made distinction between proto dataset and dataset cleared in dtool help and feedback
-
 
 Security
 ^^^^^^^^
+
+
+[0.7.0] - 2017-09-15
+--------------------
+
+Added
+^^^^^
+
+- ``dtool name`` command
+
+Fixed
+^^^^^
+
+- Made distinction between proto dataset and dataset cleared in dtool help and feedback
 
 
 [0.6.0] - 2017-09-13
