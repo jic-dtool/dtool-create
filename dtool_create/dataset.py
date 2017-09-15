@@ -125,7 +125,10 @@ def name(dataset_uri, new_name):
                 config_path=CONFIG_PATH
             )
         except dtoolcore.DtoolCoreTypeError:
-            click.secho("Cannot alter the name of a frozen dataset", fg="red", err=True)
+            click.secho(
+                "Cannot alter the name of a frozen dataset",
+                fg="red",
+                err=True)
             sys.exit(1)
         proto_dataset.update_name(new_name)
 

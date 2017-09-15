@@ -8,6 +8,7 @@ from click.testing import CliRunner
 
 from dtoolcore import ProtoDataSet
 
+
 def test_dataset_name_functional(chdir_fixture):  # NOQA
     from dtool_create.dataset import create, name, freeze
     runner = CliRunner()
@@ -25,7 +26,6 @@ def test_dataset_name_functional(chdir_fixture):  # NOQA
     # Test that the dataset name is correct.
     assert dataset.name == dataset_name
 
-
     result = runner.invoke(name, [dataset_uri])
     assert result.exit_code == 0
     assert result.output.strip() == "my_dataset"
@@ -39,7 +39,6 @@ def test_dataset_name_functional(chdir_fixture):  # NOQA
     result = runner.invoke(name, [dataset_uri])
     assert result.exit_code == 0
     assert result.output.strip() == "new_name"
-
 
     result = runner.invoke(name, [dataset_uri, "not_allowed_new_name"])
     assert result.exit_code == 1
