@@ -23,6 +23,7 @@ from ruamel.yaml.comments import CommentedMap
 
 from dtool_cli.cli import (
     dataset_uri_argument,
+    proto_dataset_uri_argument,
     storagebroker_validation,
     CONFIG_PATH,
 )
@@ -146,11 +147,11 @@ def readme():
 
 
 @readme.command()
-@dataset_uri_argument
-def interactive(dataset_uri):
+@proto_dataset_uri_argument
+def interactive(proto_dataset_uri):
     """Update the readme file interactively."""
     proto_dataset = dtoolcore.ProtoDataSet.from_uri(
-        uri=dataset_uri,
+        uri=proto_dataset_uri,
         config_path=CONFIG_PATH)
 
     # Create an CommentedMap representation of the yaml readme template.
@@ -186,17 +187,17 @@ def interactive(dataset_uri):
     click.secho("Updated readme ", fg="green")
     click.secho("To edit the readme using your default editor:")
     click.secho(
-        "dtool readme edit {}".format(dataset_uri),
+        "dtool readme edit {}".format(proto_dataset_uri),
         fg="cyan")
 
 
 @readme.command()
-@dataset_uri_argument
-def edit(dataset_uri):
+@proto_dataset_uri_argument
+def edit(proto_dataset_uri):
     """Edit the readme file with your default editor.
     """
     proto_dataset = dtoolcore.ProtoDataSet.from_uri(
-        uri=dataset_uri,
+        uri=proto_dataset_uri,
         config_path=CONFIG_PATH)
     readme_content = proto_dataset.get_readme_content()
     edited_content = click.edit(readme_content)
@@ -205,7 +206,7 @@ def edit(dataset_uri):
         click.secho("Updated readme ", nl=False, fg="green")
     else:
         click.secho("Did not update readme ", nl=False, fg="red")
-    click.secho(dataset_uri)
+    click.secho(proto_dataset_uri)
 
 
 @click.group()
@@ -215,12 +216,12 @@ def add():
 
 @add.command()
 @click.argument("input_file", type=click.Path(exists=True))
-@dataset_uri_argument
+@proto_dataset_uri_argument
 @click.argument("relpath_in_dataset", default="")
-def item(dataset_uri, input_file, relpath_in_dataset):
-    """Add a file to the dataset."""
+def item(proto_dataset_uri, input_file, relpath_in_dataset):
+    """Add a file to the proto dataset."""
     proto_dataset = dtoolcore.ProtoDataSet.from_uri(
-        dataset_uri,
+        proto_dataset_uri,
         config_path=CONFIG_PATH)
     if relpath_in_dataset == "":
         relpath_in_dataset = os.path.basename(input_file)
@@ -228,14 +229,14 @@ def item(dataset_uri, input_file, relpath_in_dataset):
 
 
 @add.command()
-@dataset_uri_argument
+@proto_dataset_uri_argument
 @click.argument("relpath_in_dataset")
 @click.argument("key")
 @click.argument("value")
-def metadata(dataset_uri, relpath_in_dataset, key, value):
-    """Add metadata to a file in the dataset."""
+def metadata(proto_dataset_uri, relpath_in_dataset, key, value):
+    """Add metadata to a file in the proto dataset."""
     proto_dataset = dtoolcore.ProtoDataSet.from_uri(
-        uri=dataset_uri,
+        uri=proto_dataset_uri,
         config_path=CONFIG_PATH)
     proto_dataset.add_item_metadata(
         handle=relpath_in_dataset,
@@ -244,33 +245,22 @@ def metadata(dataset_uri, relpath_in_dataset, key, value):
 
 
 @click.command()
-@dataset_uri_argument
-def freeze(dataset_uri):
+@proto_dataset_uri_argument
+def freeze(proto_dataset_uri):
     """Convert a proto dataset into a dataset.
 
     This step is carried out after all files have been added to the dataset.
     Freezing a dataset finalizes it with a stamp marking it as frozen.
     """
-    try:
-        proto_dataset = dtoolcore.ProtoDataSet.from_uri(
-            uri=dataset_uri,
-            config_path=CONFIG_PATH)
-    except dtoolcore.DtoolCoreTypeError:
-        try:
-            dataset = dtoolcore.DataSet.from_uri(
-                uri=dataset_uri,
-                config_path=CONFIG_PATH)
-            click.secho("Dataset is already frozen at ", nl=False)
-            timestamp = float(dataset._admin_metadata["frozen_at"])
-            dt = datetime.datetime.fromtimestamp(timestamp)
-            click.secho(dt.strftime('%Y-%m-%d %H:%M:%S UTC'))
-        finally:
-            sys.exit()
+    proto_dataset = dtoolcore.ProtoDataSet.from_uri(
+        uri=proto_dataset_uri,
+        config_path=CONFIG_PATH
+    )
     with click.progressbar(length=len(list(proto_dataset._identifiers())),
                            label="Generating manifest") as progressbar:
         proto_dataset.freeze(progressbar=progressbar)
     click.secho("Dataset frozen ", nl=False, fg="green")
-    click.secho(dataset_uri)
+    click.secho(proto_dataset_uri)
 
 
 @click.command()
