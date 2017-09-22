@@ -11,7 +11,7 @@ This change log uses principles from `keep a changelog <http://keepachangelog.co
 Added
 ^^^^^
 
-
+- Better validation of input in terms of base vs proto vs frozen dataset URIs
 
 Changed
 ^^^^^^^

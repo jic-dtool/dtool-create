@@ -22,8 +22,9 @@ from ruamel.yaml import YAML
 from ruamel.yaml.comments import CommentedMap
 
 from dtool_cli.cli import (
-    dataset_uri_argument,
+    base_dataset_uri_argument,
     proto_dataset_uri_argument,
+    dataset_uri_argument,
     storagebroker_validation,
     CONFIG_PATH,
 )
@@ -110,7 +111,7 @@ def create(name, storage, prefix):
 
 
 @click.command()
-@dataset_uri_argument
+@base_dataset_uri_argument
 @click.argument("new_name", default="")
 def name(dataset_uri, new_name):
     """
