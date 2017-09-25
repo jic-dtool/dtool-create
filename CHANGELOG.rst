@@ -11,7 +11,6 @@ This change log uses principles from `keep a changelog <http://keepachangelog.co
 Added
 ^^^^^
 
-- Better validation of input in terms of base vs proto vs frozen dataset URIs
 
 Changed
 ^^^^^^^
@@ -31,6 +30,15 @@ Fixed
 
 Security
 ^^^^^^^^
+
+
+[0.8.0] - 2017-09-25
+--------------------
+
+Added
+^^^^^
+
+- Better validation of input in terms of base vs proto vs frozen dataset URIs
 
 
 [0.7.0] - 2017-09-15
