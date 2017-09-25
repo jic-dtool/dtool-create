@@ -16,7 +16,7 @@ setup(
     url=url,
     install_requires=[
         "click",
-        "dtoolcore>=2.4.0",
+        "dtoolcore>=2.8.1",
         "dtool_cli>=0.6.0",
         "ruamel.yaml",
     ],
