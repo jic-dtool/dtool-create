@@ -212,7 +212,7 @@ def edit(proto_dataset_uri):
 
 @click.group()
 def add():
-    """Add items and item metadata."""
+    """Add items and item metadata to a proto dataset."""
 
 
 @add.command()
