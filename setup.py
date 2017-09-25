@@ -17,7 +17,7 @@ setup(
     install_requires=[
         "click",
         "dtoolcore>=2.4.0",
-        "dtool_cli",
+        "dtool_cli>=0.6.0",
         "ruamel.yaml",
     ],
     entry_points={
