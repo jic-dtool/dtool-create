@@ -12,6 +12,7 @@ Added
 ^^^^^
 
 - ``dtool readme show`` command that returns the readme content
+- ``--quiet`` flag to ``dtool copy`` command
 
 
 Changed

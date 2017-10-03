@@ -5,6 +5,7 @@ import os
 from click.testing import CliRunner
 
 from dtoolcore import DataSet, ProtoDataSet
+from dtoolcore.compare import diff_content
 
 from . import chdir_fixture, tmp_dir_fixture  # NOQA
 
@@ -53,3 +54,17 @@ def test_dataset_copy_functional(chdir_fixture):  # NOQA
     result = runner.invoke(copy, [dataset_uri, copy_directory])
     assert result.exit_code != 0
     assert result.output.find("Error: Dataset already exists") != -1
+
+    # Create another directory to copy the dataset to.
+    copy_directory_2 = os.path.abspath("copy_dir_2")
+    os.mkdir(copy_directory_2)
+
+    # Test the quite flag.
+    result = runner.invoke(copy, ["--quiet", dataset_uri, copy_directory_2])
+    assert result.exit_code == 0
+    expected_uri = "file://" + os.path.join(copy_directory_2, dataset_name)
+    assert result.output.strip() == expected_uri
+
+    # Compare the content of the two datasets.
+    copied_dataset = DataSet.from_uri(expected_uri)
+    assert len(diff_content(dataset, copied_dataset)) == 0

@@ -277,10 +277,11 @@ def freeze(proto_dataset_uri):
 
 
 @click.command()
+@click.option("--quiet", "-q", is_flag=True)
 @dataset_uri_argument
 @click.argument("prefix", default="")
 @click.argument("storage", default="file", callback=storagebroker_validation)
-def copy(dataset_uri, prefix, storage):
+def copy(quiet, dataset_uri, prefix, storage):
     """Copy a dataset to a different location."""
     # Check if the destination URI is already a dataset
     # and exit gracefully if true.
@@ -302,14 +303,22 @@ def copy(dataset_uri, prefix, storage):
                 "Path already exists: {}".format(parsed_uri.path))
 
     # Finally do the copy
-    num_items = len(list(src_dataset.identifiers))
-    with click.progressbar(length=num_items*2,
-                           label="Copying dataset") as progressbar:
+    if quiet:
         dest_uri = dtoolcore.copy(
             dataset_uri,
             prefix,
             storage,
-            CONFIG_PATH,
-            progressbar)
+            CONFIG_PATH)
+        click.secho(dest_uri)
+    else:
+        num_items = len(list(src_dataset.identifiers))
+        with click.progressbar(length=num_items*2,
+                               label="Copying dataset") as progressbar:
+            dest_uri = dtoolcore.copy(
+                dataset_uri,
+                prefix,
+                storage,
+                CONFIG_PATH,
+                progressbar)
 
-    click.secho("Dataset copied to {}".format(dest_uri))
+        click.secho("Dataset copied to:\n{}".format(dest_uri))
