@@ -11,9 +11,13 @@ This change log uses principles from `keep a changelog <http://keepachangelog.co
 Added
 ^^^^^
 
+- ``dtool readme show`` command that returns the readme content
+
 
 Changed
 ^^^^^^^
+
+- Improved the ``dtool readme --help`` output
 
 
 Deprecated

@@ -143,14 +143,16 @@ def name(dataset_uri, new_name):
 
 @click.group()
 def readme():
-    """Add descriptive metadata to the readme.
+    """Edit / show readme content.
+
+    The readme content is descriptive metadata describing the dataset.
     """
 
 
 @readme.command()
 @proto_dataset_uri_argument
 def interactive(proto_dataset_uri):
-    """Update the readme file interactively."""
+    """Interactive prompting to populate the readme."""
     proto_dataset = dtoolcore.ProtoDataSet.from_uri(
         uri=proto_dataset_uri,
         config_path=CONFIG_PATH)
@@ -195,7 +197,7 @@ def interactive(proto_dataset_uri):
 @readme.command()
 @proto_dataset_uri_argument
 def edit(proto_dataset_uri):
-    """Edit the readme file with your default editor.
+    """Default editor updating of readme content.
     """
     proto_dataset = dtoolcore.ProtoDataSet.from_uri(
         uri=proto_dataset_uri,
@@ -209,6 +211,22 @@ def edit(proto_dataset_uri):
         click.secho("Did not update readme ", nl=False, fg="red")
     click.secho(proto_dataset_uri)
 
+@readme.command()
+@base_dataset_uri_argument
+def show(dataset_uri):
+    """Show the descriptive metadata in the readme."""
+    try:
+        dataset = dtoolcore.ProtoDataSet.from_uri(
+            uri=dataset_uri,
+            config_path=CONFIG_PATH
+        )
+    except dtoolcore.DtoolCoreTypeError:
+        dataset = dtoolcore.DataSet.from_uri(
+            uri=dataset_uri,
+            config_path=CONFIG_PATH
+        )
+    readme_content = dataset.get_readme_content()
+    click.secho(readme_content)
 
 @click.group()
 def add():
