@@ -211,6 +211,7 @@ def edit(proto_dataset_uri):
         click.secho("Did not update readme ", nl=False, fg="red")
     click.secho(proto_dataset_uri)
 
+
 @readme.command()
 @base_dataset_uri_argument
 def show(dataset_uri):
@@ -227,6 +228,7 @@ def show(dataset_uri):
         )
     readme_content = dataset.get_readme_content()
     click.secho(readme_content)
+
 
 @click.group()
 def add():
