@@ -47,14 +47,6 @@ creation_date: {date}
 """.format(username=getpass.getuser(), date=datetime.date.today())
 
 
-def create_path(ctx, param, value):
-    abspath = os.path.abspath(value)
-    if os.path.exists(abspath):
-        raise click.BadParameter(
-            "File/directory already exists: {}".format(abspath))
-    return abspath
-
-
 @click.command()
 @click.argument("name")
 @click.argument("prefix", default="")
