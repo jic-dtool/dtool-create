@@ -11,14 +11,9 @@ This change log uses principles from `keep a changelog <http://keepachangelog.co
 Added
 ^^^^^
 
-- ``dtool readme show`` command that returns the readme content
-- ``--quiet`` flag to ``dtool copy`` command
-
 
 Changed
 ^^^^^^^
-
-- Improved the ``dtool readme --help`` output
 
 
 Deprecated
@@ -35,6 +30,22 @@ Fixed
 
 Security
 ^^^^^^^^
+
+
+[0.9.0] - 2017-10-04
+--------------------
+
+Added
+^^^^^
+
+- ``dtool readme show`` command that returns the readme content
+- ``--quiet`` flag to ``dtool copy`` command
+
+
+Changed
+^^^^^^^
+
+- Improved the ``dtool readme --help`` output
 
 
 [0.8.0] - 2017-09-25
