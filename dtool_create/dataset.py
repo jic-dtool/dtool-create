@@ -63,7 +63,7 @@ def create(name, storage, prefix):
         config_path=CONFIG_PATH)
     try:
         proto_dataset.create()
-    except:
+    except dtoolcore.storagebroker.StorageBrokerOSError:
         raise click.UsageError(
             "'{}' already exists: {}".format(
                 name, proto_dataset.uri))

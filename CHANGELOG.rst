@@ -27,6 +27,8 @@ Removed
 Fixed
 ^^^^^
 
+- Made error handling in ``dtool create`` more specific
+
 
 Security
 ^^^^^^^^
