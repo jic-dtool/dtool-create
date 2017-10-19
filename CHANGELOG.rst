@@ -28,6 +28,8 @@ Fixed
 ^^^^^
 
 - Made error handling in ``dtool create`` more specific
+- Added propagation of original error message when ``StorageBrokerOSError``
+  captures in ``dtool create``
 
 
 Security
