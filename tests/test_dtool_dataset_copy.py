@@ -26,9 +26,10 @@ def test_dataset_copy_functional(chdir_fixture):  # NOQA
     # Create a directory to copy the dataset to.
     copy_directory = os.path.abspath("copy_dir")
     os.mkdir(copy_directory)
+    copy_uri = "file://" + copy_directory
 
     # It should not be possible to copy a proto dataset.
-    result = runner.invoke(copy, [dataset_uri, copy_directory])
+    result = runner.invoke(copy, [dataset_uri, copy_uri])
     assert result.exit_code != 0
 
     # Create sample file to the proto dataset.
@@ -47,12 +48,13 @@ def test_dataset_copy_functional(chdir_fixture):  # NOQA
     dataset = DataSet.from_uri(dataset_uri)
 
     # It should now be possible to copy the dataset.
-    result = runner.invoke(copy, [dataset_uri, copy_directory])
+    result = runner.invoke(copy, [dataset_uri, copy_uri])
     assert result.exit_code == 0
 
     # However, it cannot be done again.
-    result = runner.invoke(copy, [dataset_uri, copy_directory])
+    result = runner.invoke(copy, [dataset_uri, copy_uri])
     assert result.exit_code != 0
+
     assert result.output.find("Error: Dataset already exists") != -1
 
     # Create another directory to copy the dataset to.
@@ -60,7 +62,11 @@ def test_dataset_copy_functional(chdir_fixture):  # NOQA
     os.mkdir(copy_directory_2)
 
     # Test the quite flag.
-    result = runner.invoke(copy, ["--quiet", dataset_uri, copy_directory_2])
+    result = runner.invoke(copy, [
+        "--quiet",
+        dataset_uri,
+        "file://" + copy_directory_2
+    ])
     assert result.exit_code == 0
     expected_uri = "file://" + os.path.join(copy_directory_2, dataset_name)
     assert result.output.strip() == expected_uri

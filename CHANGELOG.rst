@@ -17,6 +17,9 @@ Added
 Changed
 ^^^^^^^
 
+- ``dtool copy`` now specifies target location using URI rather than
+  using the ``--prefix`` and ``--storage`` arguments
+
 
 Deprecated
 ^^^^^^^^^^
