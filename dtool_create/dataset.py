@@ -48,10 +48,11 @@ creation_date: {date}
 
 
 @click.command()
+@click.option("--quiet", "-q", is_flag=True)
 @click.argument("name")
 @click.argument("prefix", default="")
 @click.argument("storage", default="file", callback=storagebroker_validation)
-def create(name, storage, prefix):
+def create(quiet, name, storage, prefix):
     """Create a proto dataset."""
     admin_metadata = dtoolcore.generate_admin_metadata(name)
 
@@ -68,36 +69,41 @@ def create(name, storage, prefix):
 
     proto_dataset.put_readme("")
 
-    # Give the user some feedback and hints on what to do next.
-    click.secho("Created proto dataset ", nl=False, fg="green")
-    click.secho(proto_dataset.uri)
-    click.secho("Next steps: ")
+    if quiet:
+        click.secho(proto_dataset.uri)
+    else:
+        # Give the user some feedback and hints on what to do next.
+        click.secho("Created proto dataset ", nl=False, fg="green")
+        click.secho(proto_dataset.uri)
+        click.secho("Next steps: ")
 
-    step = 1
-    click.secho("{}. Add descriptive metadata, e.g: ".format(step))
-    click.secho(
-        "   dtool readme interactive {}".format(proto_dataset.uri),
-        fg="cyan")
-
-    if storage != "symlink":
-        step = step + 1
-        click.secho("{}. Add raw data, eg:".format(step))
+        step = 1
+        click.secho("{}. Add descriptive metadata, e.g: ".format(step))
         click.secho(
-            "   dtool add item my_file.txt {}".format(proto_dataset.uri),
+            "   dtool readme interactive {}".format(proto_dataset.uri),
             fg="cyan")
 
-        if storage == "file":
-            # Find the abspath of the data directory for user feedback.
-            data_path = proto_dataset._storage_broker._data_abspath
-            click.secho("   Or use your system commands, e.g: ")
+        if storage != "symlink":
+            step = step + 1
+            click.secho("{}. Add raw data, eg:".format(step))
             click.secho(
-                "   mv my_data_directory {}/".format(data_path),
-                fg="cyan"
-            )
+                "   dtool add item my_file.txt {}".format(proto_dataset.uri),
+                fg="cyan")
 
-    step = step + 1
-    click.secho("{}. Convert the proto dataset into a dataset: ".format(step))
-    click.secho("   dtool freeze {}".format(proto_dataset.uri), fg="cyan")
+            if storage == "file":
+                # Find the abspath of the data directory for user feedback.
+                data_path = proto_dataset._storage_broker._data_abspath
+                click.secho("   Or use your system commands, e.g: ")
+                click.secho(
+                    "   mv my_data_directory {}/".format(data_path),
+                    fg="cyan"
+                )
+
+        step = step + 1
+        click.secho(
+            "{}. Convert the proto dataset into a dataset: ".format(step)
+        )
+        click.secho("   dtool freeze {}".format(proto_dataset.uri), fg="cyan")
 
 
 @click.command()

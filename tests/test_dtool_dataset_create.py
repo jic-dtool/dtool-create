@@ -26,6 +26,23 @@ def test_dataset_create_functional(chdir_fixture):  # NOQA
     assert dataset.name == dataset_name
 
 
+def test_dataset_create_quiet_flag(tmp_dir_fixture):  # NOQA
+    from dtool_create.dataset import create
+    runner = CliRunner()
+
+    dataset_name = "my_dataset"
+    result = runner.invoke(create, [
+        "--quiet",
+        dataset_name,
+        tmp_dir_fixture
+    ])
+    assert result.exit_code == 0
+
+    expected_output = "file://" + os.path.join(
+        tmp_dir_fixture, dataset_name)
+    assert result.output.strip() == expected_output
+
+
 def test_dataset_create_fails_on_directory_exists(chdir_fixture):  # NOQA
     from dtool_create.dataset import create
     runner = CliRunner()
