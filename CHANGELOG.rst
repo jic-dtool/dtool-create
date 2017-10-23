@@ -11,14 +11,9 @@ This change log uses principles from `keep a changelog <http://keepachangelog.co
 Added
 ^^^^^
 
-- ``--quiet`` flag to ``dtool create`` command
-
 
 Changed
 ^^^^^^^
-
-- ``dtool copy`` now specifies target location using URI rather than
-  using the ``--prefix`` and ``--storage`` arguments
 
 
 Deprecated
@@ -32,13 +27,31 @@ Removed
 Fixed
 ^^^^^
 
-- Made error handling in ``dtool create`` more specific
-- Added propagation of original error message when ``StorageBrokerOSError``
-  captures in ``dtool create``
-
 
 Security
 ^^^^^^^^
+
+
+[0.10.0] - 2017-10-23
+---------------------
+
+Added
+^^^^^
+
+- ``--quiet`` flag to ``dtool create`` command
+
+Changed
+^^^^^^^
+
+- ``dtool copy`` now specifies target location using URI rather than
+  using the ``--prefix`` and ``--storage`` arguments
+
+Fixed
+^^^^^
+
+- Made error handling in ``dtool create`` more specific
+- Added propagation of original error message when ``StorageBrokerOSError``
+  captures in ``dtool create``
 
 
 [0.9.0] - 2017-10-04
