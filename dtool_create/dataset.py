@@ -49,8 +49,15 @@ def _get_readme_template(fpath=None):
     with open(fpath) as fh:
         readme_template = fh.read()
 
+    email_suffix = dtoolcore.utils.get_config_value(
+        "DTOOL_EMAIL_SUFFIX",
+        CONFIG_PATH,
+        ""
+    )
+
     readme_template = readme_template.format(
         username=getpass.getuser(),
+        email_suffix=email_suffix,
         date=datetime.date.today(),
     )
 

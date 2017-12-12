@@ -5,7 +5,7 @@ confidential: False
 personally_identifiable_information: False
 owners:
   - name: Your Name
-    email: {username}@nbi.ac.uk
+    email: {username}@{email_suffix}
     username: {username}
 creation_date: {date}
 # links:
