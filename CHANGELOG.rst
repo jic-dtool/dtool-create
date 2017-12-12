@@ -11,6 +11,8 @@ This change log uses principles from `keep a changelog <http://keepachangelog.co
 Added
 ^^^^^
 
+- Ability to specify a custom README.yml template file path.
+
 
 Changed
 ^^^^^^^
@@ -28,6 +30,8 @@ Fixed
 ^^^^^
 
 - Made the YAML output more pretty by adding more indentation.
+- Replace ``nbi.ac.uk`` with configurable ``{email_suffix}``
+  in the default README.yml template.
 
 
 Security
