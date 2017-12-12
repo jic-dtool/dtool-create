@@ -156,6 +156,7 @@ def interactive(proto_dataset_uri):
     # Create an CommentedMap representation of the yaml readme template.
     yaml = YAML()
     yaml.explicit_start = True
+    yaml.indent(mapping=2, sequence=4, offset=2)
     descriptive_metadata = yaml.load(README_TEMPLATE)
 
     def prompt_for_values(d):

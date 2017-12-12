@@ -27,6 +27,8 @@ Removed
 Fixed
 ^^^^^
 
+- Made the YAML output more pretty by adding more indentation.
+
 
 Security
 ^^^^^^^^
