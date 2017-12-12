@@ -29,22 +29,18 @@ from dtool_cli.cli import (
     CONFIG_PATH,
 )
 
-README_TEMPLATE = """---
-description: Dataset description
-project: Project name
-confidential: False
-personally_identifiable_information: False
-owners:
-  - name: Your Name
-    email: {username}@nbi.ac.uk
-    username: {username}
-creation_date: {date}
-# links:
-#  - http://doi.dx.org/your_doi
-#  - http://github.com/your_code_repository
-# budget_codes:
-#  - E.g. CCBS1H10S
-""".format(username=getpass.getuser(), date=datetime.date.today())
+
+_HERE = os.path.dirname(__file__)
+_TEMPLATE_DIR = os.path.join(_HERE, "templates")
+README_TEMPLATE_FPATH = os.path.join(_TEMPLATE_DIR, "README.yml")
+
+with open(README_TEMPLATE_FPATH) as fh:
+    README_TEMPLATE= fh.read()
+
+README_TEMPLATE = README_TEMPLATE.format(
+    username=getpass.getuser(),
+    date=datetime.date.today(),
+)
 
 
 @click.command()
