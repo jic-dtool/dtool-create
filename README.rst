@@ -68,23 +68,27 @@ If the ``~/.config/dtool/dtool.json`` file does not exist one may need to
 create it.
 
 
-Configuring the descriptive metadata email
-------------------------------------------
+Configuring the user's full name and email for the descriptive metadata
+-----------------------------------------------------------------------
 
-When running the ``dtool interactive readme`` the default email address is
-you@example.com. The default email address can be configured by setting the
-``DTOOL_USER_EMAIL`` environment variable.
+When running the ``dtool interactive readme`` the default name and email
+address are ``Your Name`` and ``you@example.com``.  These defaults can be
+configured by setting the ``DTOOL_USER_FULL_NAME`` ``DTOOL_USER_EMAIL``
+environment variables.
 
 ::
 
+    export DTOOL_USER_FULL_NAME="Care A. Bout-Data"
     export DTOOL_USER_EMAIL=researcher@famous.uni.ac.uk
 
-Alternatively, one can add the ``DTOOL_USER_EMAIL`` key to the
-``~/.config/dtool/dtool.json`` file.  For example,
+Alternatively, one can add the ``DTOOL_USER_FULL_NAME`` and
+``DTOOL_USER_EMAIL`` keys to the ``~/.config/dtool/dtool.json`` file.  For
+example,
 
 .. code-block:: json
 
     {
+       "DTOOL_USER_FULL_NAME": "Care A. Bout-Data"
        "DTOOL_USER_EMAIL": "researcher@famous.uni.ac.uk"
     }
 

@@ -12,6 +12,8 @@ Added
 ^^^^^
 
 - Ability to specify a custom README.yml template file path.
+- Ability to configure the full user name for the README.yml template using
+  ``DTOOL_USER_FULL_NAME``
 
 
 Changed

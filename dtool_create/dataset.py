@@ -55,8 +55,15 @@ def _get_readme_template(fpath=None):
         "you@example.com"
     )
 
+    user_full_name = dtoolcore.utils.get_config_value(
+        "DTOOL_USER_FULL_NAME",
+        CONFIG_PATH,
+        "Your Name"
+    )
+
     readme_template = readme_template.format(
         username=getpass.getuser(),
+        DTOOL_USER_FULL_NAME=user_full_name,
         DTOOL_USER_EMAIL=user_email,
         date=datetime.date.today(),
     )
