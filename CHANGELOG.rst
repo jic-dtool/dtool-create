@@ -30,8 +30,7 @@ Fixed
 ^^^^^
 
 - Made the YAML output more pretty by adding more indentation.
-- Replace ``nbi.ac.uk`` with configurable ``{email_suffix}``
-  in the default README.yml template.
+- Replaced hardcoded ``nbi.ac.uk`` email with configurable ``DTOOL_USER_EMAIL`` in the default README.yml template.
 
 
 Security

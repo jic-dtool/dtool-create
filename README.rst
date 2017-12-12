@@ -68,25 +68,24 @@ If the ``~/.config/dtool/dtool.json`` file does not exist one may need to
 create it.
 
 
-Configuring the descriptive metadata email suffix
--------------------------------------------------
+Configuring the descriptive metadata email
+------------------------------------------
 
-When running the ``dtool interactive readme`` the default behaviour is
-provides an email address along the lines of ``username@``. It is possible
-to add a suffix to this email address by setting the ``DTOOL_EMAIL_SUFFIX``
-environment variable.
+When running the ``dtool interactive readme`` the default email address is
+you@example.com. The default email address can be configured by setting the
+``DTOOL_USER_EMAIL`` environment variable.
 
 ::
 
-    export DTOOL_EMAIL_SUFFIX=nbi.ac.uk
+    export DTOOL_USER_EMAIL=researcher@famous.uni.ac.uk
 
-Alternatively, one can add the ``DTOOL_README_TEMPLATE_FPATH`` key to the
+Alternatively, one can add the ``DTOOL_USER_EMAIL`` key to the
 ``~/.config/dtool/dtool.json`` file.  For example,
 
 .. code-block:: json
 
     {
-       "DTOOL_EMAIL_SUFFIX": "nbi.ac.uk"
+       "DTOOL_USER_EMAIL": "researcher@famous.uni.ac.uk"
     }
 
 If the ``~/.config/dtool/dtool.json`` file does not exist one may need to

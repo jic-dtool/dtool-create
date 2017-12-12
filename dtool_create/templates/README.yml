@@ -5,7 +5,7 @@ confidential: False
 personally_identifiable_information: False
 owners:
   - name: Your Name
-    email: {username}@{email_suffix}
+    email: {DTOOL_USER_EMAIL}
     username: {username}
 creation_date: {date}
 # links:
