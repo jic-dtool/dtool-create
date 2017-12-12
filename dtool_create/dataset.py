@@ -17,6 +17,7 @@ except ImportError:
 
 import click
 import dtoolcore
+import dtoolcore.utils
 
 from ruamel.yaml import YAML
 from ruamel.yaml.comments import CommentedMap
@@ -34,13 +35,26 @@ _HERE = os.path.dirname(__file__)
 _TEMPLATE_DIR = os.path.join(_HERE, "templates")
 README_TEMPLATE_FPATH = os.path.join(_TEMPLATE_DIR, "README.yml")
 
-with open(README_TEMPLATE_FPATH) as fh:
-    README_TEMPLATE= fh.read()
 
-README_TEMPLATE = README_TEMPLATE.format(
-    username=getpass.getuser(),
-    date=datetime.date.today(),
-)
+def _get_readme_template(fpath=None):
+
+    if fpath is None:
+        fpath = dtoolcore.utils.get_config_value(
+            "DTOOL_README_TEMPLATE_FPATH",
+            CONFIG_PATH
+        )
+    if fpath is None:
+        fpath = README_TEMPLATE_FPATH
+
+    with open(fpath) as fh:
+        readme_template = fh.read()
+
+    readme_template = readme_template.format(
+        username=getpass.getuser(),
+        date=datetime.date.today(),
+    )
+
+    return readme_template
 
 
 @click.command()
@@ -150,10 +164,11 @@ def interactive(proto_dataset_uri):
         config_path=CONFIG_PATH)
 
     # Create an CommentedMap representation of the yaml readme template.
+    readme_template = _get_readme_template()
     yaml = YAML()
     yaml.explicit_start = True
     yaml.indent(mapping=2, sequence=4, offset=2)
-    descriptive_metadata = yaml.load(README_TEMPLATE)
+    descriptive_metadata = yaml.load(readme_template)
 
     def prompt_for_values(d):
         """Update the descriptive metadata interactively.
