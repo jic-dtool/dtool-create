@@ -88,7 +88,7 @@ example,
 .. code-block:: json
 
     {
-       "DTOOL_USER_FULL_NAME": "Care A. Bout-Data"
+       "DTOOL_USER_FULL_NAME": "Care A. Bout-Data",
        "DTOOL_USER_EMAIL": "researcher@famous.uni.ac.uk"
     }
 
