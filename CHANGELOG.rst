@@ -11,10 +11,6 @@ This change log uses principles from `keep a changelog <http://keepachangelog.co
 Added
 ^^^^^
 
-- Ability to specify a custom README.yml template file path.
-- Ability to configure the full user name for the README.yml template using
-  ``DTOOL_USER_FULL_NAME``
-
 
 Changed
 ^^^^^^^
@@ -31,12 +27,27 @@ Removed
 Fixed
 ^^^^^
 
-- Made the YAML output more pretty by adding more indentation.
-- Replaced hardcoded ``nbi.ac.uk`` email with configurable ``DTOOL_USER_EMAIL`` in the default README.yml template.
-
 
 Security
 ^^^^^^^^
+
+
+[0.11.0] - 2017-12-14
+---------------------
+
+Added
+^^^^^
+
+- Ability to specify a custom README.yml template file path.
+- Ability to configure the full user name for the README.yml template using
+  ``DTOOL_USER_FULL_NAME``
+
+Fixed
+^^^^^
+
+- Made the YAML output more pretty by adding more indentation.
+- Replaced hardcoded ``nbi.ac.uk`` email with configurable ``DTOOL_USER_EMAIL``
+  in the default README.yml template.
 
 
 [0.10.0] - 2017-10-23
