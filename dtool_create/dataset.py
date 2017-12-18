@@ -74,17 +74,17 @@ def _get_readme_template(fpath=None):
 @click.command()
 @click.option("--quiet", "-q", is_flag=True)
 @click.argument("name")
-@click.argument("prefix", default="")
-@click.argument("storage", default="file", callback=storagebroker_validation)
-def create(quiet, name, storage, prefix):
+@click.argument("base_uri", default="")
+def create(quiet, name, base_uri):
     """Create a proto dataset."""
     admin_metadata = dtoolcore.generate_admin_metadata(name)
+    parsed_base_uri = dtoolcore.utils.generous_parse_uri(base_uri)
+    storage = parsed_base_uri.scheme
 
     # Create the dataset.
     proto_dataset = dtoolcore.generate_proto_dataset(
         admin_metadata=admin_metadata,
-        prefix=prefix,
-        storage=storage,
+        base_uri=base_uri,
         config_path=CONFIG_PATH)
     try:
         proto_dataset.create()
@@ -309,22 +309,15 @@ def freeze(proto_dataset_uri):
 @click.command()
 @click.option("--quiet", "-q", is_flag=True)
 @dataset_uri_argument
-@click.argument("dest_location_uri")
-def copy(quiet, dataset_uri, dest_location_uri):
+@click.argument("dest_base_uri")
+def copy(quiet, dataset_uri, dest_base_uri):
     """Copy a dataset to a different location."""
     src_dataset = dtoolcore.DataSet.from_uri(dataset_uri)
 
-    # Generate the destination URI.
-    parsed_location_uri = urlparse(dest_location_uri)
-    prefix = parsed_location_uri.path
-    storage = parsed_location_uri.scheme
-    if storage == "":
-        storage = "file"
-
     dest_uri = dtoolcore._generate_uri(
         admin_metadata=src_dataset._admin_metadata,
-        prefix=prefix,
-        storage=storage)
+        base_uri=dest_base_uri
+    )
 
     # Check if the destination URI is already a dataset
     # and exit gracefully if true.
@@ -334,8 +327,8 @@ def copy(quiet, dataset_uri, dest_location_uri):
 
     # If the destination URI is a "file" dataset one needs to check if
     # the path already exists and exit gracefully if true.
-    parsed_dataset_uri = urlparse(dest_uri)
-    if storage == "file":
+    parsed_dataset_uri = dtoolcore.utils.generous_parse_uri(dest_uri)
+    if parsed_dataset_uri.scheme == "file":
         if os.path.exists(parsed_dataset_uri.path):
             raise click.UsageError(
                 "Path already exists: {}".format(parsed_dataset_uri.path))
@@ -344,8 +337,7 @@ def copy(quiet, dataset_uri, dest_location_uri):
     if quiet:
         dest_uri = dtoolcore.copy(
             src_uri=dataset_uri,
-            prefix=prefix,
-            storage=storage,
+            dest_base_uri=dest_base_uri,
             config_path=CONFIG_PATH
         )
         click.secho(dest_uri)
@@ -355,8 +347,7 @@ def copy(quiet, dataset_uri, dest_location_uri):
                                label="Copying dataset") as progressbar:
             dest_uri = dtoolcore.copy(
                 src_uri=dataset_uri,
-                prefix=prefix,
-                storage=storage,
+                dest_base_uri=dest_base_uri,
                 config_path=CONFIG_PATH,
                 progressbar=progressbar
             )
