@@ -10,11 +10,6 @@ try:
 except ImportError:
     from io import StringIO
 
-try:
-    from urlparse import urlparse
-except ImportError:
-    from urllib.parse import urlparse
-
 import click
 import dtoolcore
 import dtoolcore.utils
@@ -26,7 +21,6 @@ from dtool_cli.cli import (
     base_dataset_uri_argument,
     proto_dataset_uri_argument,
     dataset_uri_argument,
-    storagebroker_validation,
     CONFIG_PATH,
 )
 
