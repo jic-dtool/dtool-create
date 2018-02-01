@@ -96,13 +96,8 @@ def create(quiet, name, base_uri):
         click.secho("Next steps: ")
 
         step = 1
-        click.secho("{}. Add descriptive metadata, e.g: ".format(step))
-        click.secho(
-            "   dtool readme interactive {}".format(proto_dataset.uri),
-            fg="cyan")
 
         if storage != "symlink":
-            step = step + 1
             click.secho("{}. Add raw data, eg:".format(step))
             click.secho(
                 "   dtool add item my_file.txt {}".format(proto_dataset.uri),
@@ -116,8 +111,14 @@ def create(quiet, name, base_uri):
                     "   mv my_data_directory {}/".format(data_path),
                     fg="cyan"
                 )
+            step = step + 1
 
+        click.secho("{}. Add descriptive metadata, e.g: ".format(step))
+        click.secho(
+            "   dtool readme interactive {}".format(proto_dataset.uri),
+            fg="cyan")
         step = step + 1
+
         click.secho(
             "{}. Convert the proto dataset into a dataset: ".format(step)
         )
