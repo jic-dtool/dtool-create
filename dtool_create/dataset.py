@@ -66,7 +66,7 @@ def _get_readme_template(fpath=None):
 
 
 @click.command()
-@click.option("--quiet", "-q", is_flag=True)
+@click.option("--quiet", "-q", is_flag=True, help="Only return new URI")
 @click.argument("name")
 @click.argument("base_uri", default="")
 def create(quiet, name, base_uri):
