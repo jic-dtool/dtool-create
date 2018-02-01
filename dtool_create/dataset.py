@@ -301,10 +301,11 @@ def freeze(proto_dataset_uri):
 
 
 @click.command()
-@click.option("--quiet", "-q", is_flag=True)
+@click.option("--resume", is_flag=True, help="Resume an interrupted copy")
+@click.option("--quiet", "-q", is_flag=True, help="Only return new URI")
 @dataset_uri_argument
 @click.argument("dest_base_uri")
-def copy(quiet, dataset_uri, dest_base_uri):
+def copy(resume, quiet, dataset_uri, dest_base_uri):
     """Copy a dataset to a different location."""
     src_dataset = dtoolcore.DataSet.from_uri(dataset_uri)
 
@@ -313,23 +314,29 @@ def copy(quiet, dataset_uri, dest_base_uri):
         base_uri=dest_base_uri
     )
 
-    # Check if the destination URI is already a dataset
-    # and exit gracefully if true.
-    if dtoolcore._is_dataset(dest_uri, config_path=CONFIG_PATH):
-        raise click.UsageError(
-            "Dataset already exists: {}".format(dest_uri))
-
-    # If the destination URI is a "file" dataset one needs to check if
-    # the path already exists and exit gracefully if true.
-    parsed_dataset_uri = dtoolcore.utils.generous_parse_uri(dest_uri)
-    if parsed_dataset_uri.scheme == "file":
-        if os.path.exists(parsed_dataset_uri.path):
+    if not resume:
+        # Check if the destination URI is already a dataset
+        # and exit gracefully if true.
+        if dtoolcore._is_dataset(dest_uri, config_path=CONFIG_PATH):
             raise click.UsageError(
-                "Path already exists: {}".format(parsed_dataset_uri.path))
+                "Dataset already exists: {}".format(dest_uri))
+
+        # If the destination URI is a "file" dataset one needs to check if
+        # the path already exists and exit gracefully if true.
+        parsed_dataset_uri = dtoolcore.utils.generous_parse_uri(dest_uri)
+        if parsed_dataset_uri.scheme == "file":
+            if os.path.exists(parsed_dataset_uri.path):
+                raise click.UsageError(
+                    "Path already exists: {}".format(parsed_dataset_uri.path))
+
+    # Define the copy function to use.
+    copy_func = dtoolcore.copy
+    if resume:
+        copy_func = dtoolcore.copy_resume
 
     # Finally do the copy
     if quiet:
-        dest_uri = dtoolcore.copy(
+        dest_uri = copy_func(
             src_uri=dataset_uri,
             dest_base_uri=dest_base_uri,
             config_path=CONFIG_PATH
@@ -339,7 +346,7 @@ def copy(quiet, dataset_uri, dest_base_uri):
         num_items = len(list(src_dataset.identifiers))
         with click.progressbar(length=num_items*2,
                                label="Copying dataset") as progressbar:
-            dest_uri = dtoolcore.copy(
+            dest_uri = copy_func(
                 src_uri=dataset_uri,
                 dest_base_uri=dest_base_uri,
                 config_path=CONFIG_PATH,
