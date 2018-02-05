@@ -1,6 +1,10 @@
 README
 ======
 
+.. image:: https://badge.fury.io/py/dtool-create.svg
+   :target: http://badge.fury.io/py/dtool-create
+   :alt: PyPi package
+
 Dtool plugin for creating datasets.
 
 
