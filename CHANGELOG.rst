@@ -11,8 +11,6 @@ This change log uses principles from `keep a changelog <http://keepachangelog.co
 Added
 ^^^^^
 
-- ``--resume`` option to ``dtool copy`` command
-
 
 Changed
 ^^^^^^^
@@ -32,6 +30,15 @@ Fixed
 
 Security
 ^^^^^^^^
+
+
+[0.13.0] - 2018-02-05
+---------------------
+
+Added
+^^^^^
+
+- ``--resume`` option to ``dtool copy`` command
 
 
 [0.12.0] - 2018-01-18
