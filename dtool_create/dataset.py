@@ -69,17 +69,32 @@ def _get_readme_template(fpath=None):
 @click.option("--quiet", "-q", is_flag=True, help="Only return new URI")
 @click.argument("name")
 @click.argument("base_uri", default="")
-def create(quiet, name, base_uri):
+@click.option("--symlink-path", "-s", type=click.Path(exists=True))
+def create(quiet, name, base_uri, symlink_path):
     """Create a proto dataset."""
     admin_metadata = dtoolcore.generate_admin_metadata(name)
     parsed_base_uri = dtoolcore.utils.generous_parse_uri(base_uri)
-    storage = parsed_base_uri.scheme
+
+    if parsed_base_uri.scheme == "symlink":
+        if symlink_path is None:
+            raise click.UsageError("Need to specify symlink path using the -s/--symlink-path option")  # NOQA
+
+    if symlink_path:
+        base_uri = dtoolcore.utils.sanitise_uri(
+            "symlink:" + parsed_base_uri.path
+        )
+        parsed_base_uri = dtoolcore.utils.generous_parse_uri(base_uri)
 
     # Create the dataset.
     proto_dataset = dtoolcore.generate_proto_dataset(
         admin_metadata=admin_metadata,
-        base_uri=base_uri,
+        base_uri=dtoolcore.utils.urlunparse(parsed_base_uri),
         config_path=CONFIG_PATH)
+
+    # If we are creating a symlink dataset we need to set the symlink_path
+    # attribute on the storage broker.
+    if symlink_path:
+        proto_dataset._storage_broker.symlink_path = symlink_path
     try:
         proto_dataset.create()
     except dtoolcore.storagebroker.StorageBrokerOSError as err:
@@ -97,13 +112,13 @@ def create(quiet, name, base_uri):
 
         step = 1
 
-        if storage != "symlink":
+        if parsed_base_uri.scheme != "symlink":
             click.secho("{}. Add raw data, eg:".format(step))
             click.secho(
                 "   dtool add item my_file.txt {}".format(proto_dataset.uri),
                 fg="cyan")
 
-            if storage == "file":
+            if parsed_base_uri.scheme == "file":
                 # Find the abspath of the data directory for user feedback.
                 data_path = proto_dataset._storage_broker._data_abspath
                 click.secho("   Or use your system commands, e.g: ")

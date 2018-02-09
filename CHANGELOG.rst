@@ -31,6 +31,17 @@ Fixed
 Security
 ^^^^^^^^
 
+[0.14.0] - 2018-02-09
+---------------------
+
+Changed
+^^^^^^^
+
+- The path to the data when creating a symlink dataset is now specified using the
+  ``-s/--symlink-path`` option rather than being something that is prompted for.
+  This makes it easier to create symlink datasets in an automated fashion.
+
+
 
 [0.13.0] - 2018-02-05
 ---------------------
