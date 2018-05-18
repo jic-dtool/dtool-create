@@ -1,11 +1,17 @@
-README
-======
+dtool CLI commands for creating datasets
+========================================
 
 .. image:: https://badge.fury.io/py/dtool-create.svg
    :target: http://badge.fury.io/py/dtool-create
    :alt: PyPi package
 
-Dtool plugin for creating datasets.
+.. image:: https://travis-ci.org/jic-dtool/dtool-create.svg?branch=master
+   :target: https://travis-ci.org/jic-dtool/dtool-create
+   :alt: Travis CI build status (Linux)
+
+.. image:: https://codecov.io/github/jic-dtool/dtool-create/coverage.svg?branch=master
+   :target: https://codecov.io/github/jic-dtool/dtool-create?branch=master
+   :alt: Code Coverage
 
 
 Installation
@@ -98,3 +104,11 @@ example,
 
 If the ``~/.config/dtool/dtool.json`` file does not exist one may need to
 create it.
+
+
+Related packages
+----------------
+
+- `dtoolcore <https://github.com/jic-dtool/dtoolcore>`_
+- `dtool-cli <https://github.com/jic-dtool/dtool-cli>`_
+- `dtool-info <https://github.com/jic-dtool/dtool-info>`_
