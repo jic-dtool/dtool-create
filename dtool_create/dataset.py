@@ -313,15 +313,24 @@ def freeze(proto_dataset_uri):
     num_items = len(list(proto_dataset._identifiers()))
     limit = 1000
     if num_items > limit:
-        click.secho("Too many items ({} > {}) in proto dataset".format(num_items, limit), fg="red")
-        click.secho("1. Consider splitting the dataset into more fine grained datasets")
+        click.secho(
+            "Too many items ({} > {}) in proto dataset".format(
+                num_items,
+                limit
+            ),
+            fg="red"
+        )
+        click.secho("1. Consider splitting the dataset into smaller datasets")
         click.secho("2. Consider packaging small files using tar")
         sys.exit(45)
 
     handles = [h for h in proto_dataset._storage_broker.iter_item_handles()]
     for h in handles:
         if h.find("\n") != -1:
-            click.secho("Item with new line in name in dataset ({})".format(h), fg="red")
+            click.secho(
+                "Item with new line in name in dataset ({})".format(h),
+                fg="red"
+            )
             click.secho("1. Consider renaming the item")
             click.secho("2. Consider removing the item")
             sys.exit(46)
