@@ -11,6 +11,9 @@ This change log uses principles from `keep a changelog <http://keepachangelog.co
 Added
 ^^^^^
 
+- Pre-checks to 'dtool freeze' command to ensure that the item handles are sane, i.e. that they do not contain newline characters
+- Pre-checks to 'dtool freeze' command to ensure that there are not too many items in the proto dataset, default to less than 10000
+
 
 Changed
 ^^^^^^^
