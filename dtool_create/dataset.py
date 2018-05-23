@@ -329,6 +329,7 @@ def freeze(proto_dataset_uri):
         )
         click.secho("1. Consider splitting the dataset into smaller datasets")
         click.secho("2. Consider packaging small files using tar")
+        click.secho("3. Increase the limit using the DTOOL_MAX_FILES_LIMIT environment variable")
         sys.exit(2)
 
     handles = [h for h in proto_dataset._storage_broker.iter_item_handles()]
