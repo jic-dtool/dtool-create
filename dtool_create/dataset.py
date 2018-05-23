@@ -24,6 +24,8 @@ from dtool_cli.cli import (
     CONFIG_PATH,
 )
 
+from dtool_create.utils import valid_handle
+
 
 _HERE = os.path.dirname(__file__)
 _TEMPLATE_DIR = os.path.join(_HERE, "templates")
@@ -322,18 +324,18 @@ def freeze(proto_dataset_uri):
         )
         click.secho("1. Consider splitting the dataset into smaller datasets")
         click.secho("2. Consider packaging small files using tar")
-        sys.exit(45)
+        sys.exit(2)
 
     handles = [h for h in proto_dataset._storage_broker.iter_item_handles()]
     for h in handles:
-        if h.find("\n") != -1:
+        if not valid_handle(h):
             click.secho(
-                "Item with new line in name in dataset ({})".format(h),
+                "Invalid item name: {}".format(h),
                 fg="red"
             )
             click.secho("1. Consider renaming the item")
             click.secho("2. Consider removing the item")
-            sys.exit(46)
+            sys.exit(3)
 
     with click.progressbar(length=len(list(proto_dataset._identifiers())),
                            label="Generating manifest") as progressbar:
