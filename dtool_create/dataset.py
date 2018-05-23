@@ -313,12 +313,17 @@ def freeze(proto_dataset_uri):
     )
 
     num_items = len(list(proto_dataset._identifiers()))
-    limit = 1000
-    if num_items > limit:
+    max_files_limit = int(dtoolcore.utils.get_config_value(
+        "DTOOL_MAX_FILES_LIMIT",
+        CONFIG_PATH,
+        10000
+    ))
+    assert isinstance(max_files_limit, int)
+    if num_items > max_files_limit:
         click.secho(
             "Too many items ({} > {}) in proto dataset".format(
                 num_items,
-                limit
+                max_files_limit
             ),
             fg="red"
         )
