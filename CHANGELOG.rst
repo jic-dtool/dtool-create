@@ -11,9 +11,6 @@ This change log uses principles from `keep a changelog <http://keepachangelog.co
 Added
 ^^^^^
 
-- Pre-checks to 'dtool freeze' command to ensure that there is no rogue content
-  in the base of disk datasets
-
 
 Changed
 ^^^^^^^
@@ -33,6 +30,16 @@ Fixed
 
 Security
 ^^^^^^^^
+
+[0.16.0] - 2018-06-06
+---------------------
+
+Added
+^^^^^
+
+- Pre-checks to 'dtool freeze' command to ensure that there is no rogue content
+  in the base of disk datasets
+
 
 [0.15.0] - 2018-05-18
 ---------------------
