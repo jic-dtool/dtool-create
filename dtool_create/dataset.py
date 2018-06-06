@@ -351,7 +351,7 @@ def freeze(proto_dataset_uri):
             proto_dataset.freeze(progressbar=progressbar)
         except dtoolcore.storagebroker.DiskStorageBrokerValidationWarning as e:
             click.secho("")
-            click.secho(e.message, fg="red", nl=False)
+            click.secho(str(e), fg="red", nl=False)
             sys.exit(4)
 
     click.secho("Dataset frozen ", nl=False, fg="green")
