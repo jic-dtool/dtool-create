@@ -11,6 +11,9 @@ This change log uses principles from `keep a changelog <http://keepachangelog.co
 Added
 ^^^^^
 
+- Pre-checks to 'dtool freeze' command to ensure that there is no rogue content
+  in the base of disk datasets
+
 
 Changed
 ^^^^^^^

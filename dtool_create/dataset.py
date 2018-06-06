@@ -12,6 +12,7 @@ except ImportError:
 
 import click
 import dtoolcore
+import dtoolcore.storagebroker
 import dtoolcore.utils
 
 from ruamel.yaml import YAML
@@ -346,7 +347,13 @@ def freeze(proto_dataset_uri):
 
     with click.progressbar(length=len(list(proto_dataset._identifiers())),
                            label="Generating manifest") as progressbar:
-        proto_dataset.freeze(progressbar=progressbar)
+        try:
+            proto_dataset.freeze(progressbar=progressbar)
+        except dtoolcore.storagebroker.DiskStorageBrokerValidationWarning as e:
+            click.secho("")
+            click.secho(e.message, fg="red", nl=False)
+            sys.exit(4)
+
     click.secho("Dataset frozen ", nl=False, fg="green")
     click.secho(proto_dataset_uri)
 
