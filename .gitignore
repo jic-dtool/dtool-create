@@ -6,6 +6,7 @@
 .eggs
 
 .cache/
+.pytest_cache/
 .tox/
 
 build/
