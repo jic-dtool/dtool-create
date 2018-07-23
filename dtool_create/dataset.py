@@ -230,21 +230,28 @@ def interactive(proto_dataset_uri):
 
 
 @readme.command()
-@proto_dataset_uri_argument
-def edit(proto_dataset_uri):
+@base_dataset_uri_argument
+def edit(dataset_uri):
     """Default editor updating of readme content.
     """
-    proto_dataset = dtoolcore.ProtoDataSet.from_uri(
-        uri=proto_dataset_uri,
-        config_path=CONFIG_PATH)
-    readme_content = proto_dataset.get_readme_content()
+    try:
+        dataset = dtoolcore.ProtoDataSet.from_uri(
+            uri=dataset_uri,
+            config_path=CONFIG_PATH
+        )
+    except dtoolcore.DtoolCoreTypeError:
+        dataset = dtoolcore.DataSet.from_uri(
+            uri=dataset_uri,
+            config_path=CONFIG_PATH
+        )
+    readme_content = dataset.get_readme_content()
     edited_content = click.edit(readme_content)
     if edited_content is not None:
-        proto_dataset.put_readme(edited_content)
+        dataset.put_readme(edited_content)
         click.secho("Updated readme ", nl=False, fg="green")
     else:
         click.secho("Did not update readme ", nl=False, fg="red")
-    click.secho(proto_dataset_uri)
+    click.secho(dataset_uri)
 
 
 @readme.command()
