@@ -17,6 +17,7 @@ import dtoolcore.utils
 
 from ruamel.yaml import YAML
 from ruamel.yaml.comments import CommentedMap
+from ruamel.yaml.parser import ParserError
 
 from dtool_cli.cli import (
     base_dataset_uri_argument,
@@ -247,7 +248,27 @@ def edit(dataset_uri):
     readme_content = dataset.get_readme_content()
     edited_content = click.edit(readme_content)
     if edited_content is not None:
-        dataset.put_readme(edited_content)
+
+        # Create YAML object to validate the content
+        # and to standardise the output formatting.
+        yaml = YAML()
+        yaml.explicit_start = True
+        yaml.indent(mapping=2, sequence=4, offset=2)
+
+        # Ensure that the content is valid YAML.
+        try:
+            descriptive_metadata = yaml.load(edited_content)
+        except ParserError:
+            click.secho("Error: Invalid YAML", fg="red")
+            click.secho("Did not update readme ", nl=False, fg="red")
+            click.secho(dataset_uri)
+            sys.exit(5)
+
+        # Write out formatted YAML.
+        stream = StringIO()
+        yaml.dump(descriptive_metadata, stream)
+        dataset.put_readme(stream.getvalue())
+
         click.secho("Updated readme ", nl=False, fg="green")
     else:
         click.secho("Did not update readme ", nl=False, fg="red")
