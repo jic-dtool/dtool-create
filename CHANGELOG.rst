@@ -11,10 +11,6 @@ This change log uses principles from `keep a changelog <http://keepachangelog.co
 Added
 ^^^^^
 
-- Ability to update descriptive metadata in README of frozen datasets
-- Validation that the descriptive metadata provided by the
-  ``dtool readme edit`` command is valid YAML
-
 
 Changed
 ^^^^^^^
@@ -34,6 +30,18 @@ Fixed
 
 Security
 ^^^^^^^^
+
+
+[0.17.0] - 2018-07-26
+---------------------
+
+Added
+^^^^^
+
+- Ability to update descriptive metadata in README of frozen datasets
+- Validation that the descriptive metadata provided by the
+  ``dtool readme edit`` command is valid YAML
+
 
 [0.16.0] - 2018-06-06
 ---------------------
