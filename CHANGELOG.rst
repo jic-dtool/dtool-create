@@ -11,6 +11,10 @@ This change log uses principles from `keep a changelog <http://keepachangelog.co
 Added
 ^^^^^
 
+- Ability to update descriptive metadata in README of frozen datasets
+- Validation that the descriptive metadata provided by the
+  ``dtool readme edit`` command is valid YAML
+
 
 Changed
 ^^^^^^^
