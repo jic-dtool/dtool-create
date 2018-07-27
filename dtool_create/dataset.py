@@ -68,6 +68,20 @@ def _get_readme_template(fpath=None):
 
     return readme_template
 
+def _validate_name(name):
+    if not dtoolcore.utils.name_is_valid(name):
+        click.secho("Invalid dataset name '{}'".format(name), fg="red")
+        click.secho(
+            "Name must be 80 characters or less",
+        )
+        click.secho(
+            "Dataset names may only contain the characters: {}".format(
+                " ".join(dtoolcore.utils.NAME_VALID_CHARS_LIST)
+            ),
+        )
+        click.secho("Example: field-trial-scores-T8.3")
+        sys.exit(6)
+
 
 @click.command()
 @click.option("--quiet", "-q", is_flag=True, help="Only return new URI")
@@ -76,6 +90,8 @@ def _get_readme_template(fpath=None):
 @click.option("--symlink-path", "-s", type=click.Path(exists=True))
 def create(quiet, name, base_uri, symlink_path):
     """Create a proto dataset."""
+    _validate_name(name)
+
     admin_metadata = dtoolcore.generate_admin_metadata(name)
     parsed_base_uri = dtoolcore.utils.generous_parse_uri(base_uri)
 
@@ -166,6 +182,9 @@ def name(dataset_uri, new_name):
                 fg="red",
                 err=True)
             sys.exit(1)
+
+        _validate_name(new_name)
+
         proto_dataset.update_name(new_name)
 
     admin_metadata = dtoolcore._admin_metadata_from_uri(
