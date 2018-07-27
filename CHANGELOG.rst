@@ -11,6 +11,9 @@ This change log uses principles from `keep a changelog <http://keepachangelog.co
 Added
 ^^^^^
 
+- Validation of dataset name upon creation
+- Validation of dataset name when updating it
+
 
 Changed
 ^^^^^^^
