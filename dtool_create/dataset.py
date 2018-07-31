@@ -68,6 +68,7 @@ def _get_readme_template(fpath=None):
 
     return readme_template
 
+
 def _validate_name(name):
     if not dtoolcore.utils.name_is_valid(name):
         click.secho("Invalid dataset name '{}'".format(name), fg="red")
