@@ -55,7 +55,7 @@ repo_name = u"dtool-create"
 # built documents.
 #
 # The short X.Y version.
-version = u"0.17.0"
+version = u"0.18.0"
 # The full version, including alpha/beta/rc tags.
 release = version
 
