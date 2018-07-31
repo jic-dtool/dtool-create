@@ -40,6 +40,5 @@ def test_dataset_name_functional(chdir_fixture):  # NOQA
     assert result.exit_code == 0
     assert result.output.strip() == "new_name"
 
-    result = runner.invoke(name, [dataset_uri, "not_allowed_new_name"])
-    assert result.exit_code == 1
-    assert result.output.strip() == "Cannot alter the name of a frozen dataset"
+    result = runner.invoke(name, [dataset_uri, "frozen_ds_now_allowed"])
+    assert result.output.strip() == "frozen_ds_now_allowed"

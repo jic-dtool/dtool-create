@@ -11,6 +11,8 @@ This change log uses principles from `keep a changelog <http://keepachangelog.co
 Added
 ^^^^^
 
+- Ability to update the name of a frozen dataset
+
 
 Changed
 ^^^^^^^

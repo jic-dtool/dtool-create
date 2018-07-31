@@ -172,21 +172,20 @@ def name(dataset_uri, new_name):
     i.e. a dataset that has not yet been frozen.
     """
     if new_name != "":
+        _validate_name(new_name)
+
         try:
-            proto_dataset = dtoolcore.ProtoDataSet.from_uri(
+            dataset = dtoolcore.ProtoDataSet.from_uri(
                 uri=dataset_uri,
                 config_path=CONFIG_PATH
             )
         except dtoolcore.DtoolCoreTypeError:
-            click.secho(
-                "Cannot alter the name of a frozen dataset",
-                fg="red",
-                err=True)
-            sys.exit(1)
+            dataset = dtoolcore.DataSet.from_uri(
+                uri=dataset_uri,
+                config_path=CONFIG_PATH
+            )
 
-        _validate_name(new_name)
-
-        proto_dataset.update_name(new_name)
+        dataset.update_name(new_name)
 
     admin_metadata = dtoolcore._admin_metadata_from_uri(
         uri=dataset_uri,
