@@ -11,9 +11,6 @@ This change log uses principles from `keep a changelog <http://keepachangelog.co
 Added
 ^^^^^
 
-- Validation of dataset name upon creation
-- Validation of dataset name when updating it
-
 
 Changed
 ^^^^^^^
@@ -33,6 +30,15 @@ Fixed
 
 Security
 ^^^^^^^^
+
+[0.18.0] - 2018-07-31
+---------------------
+
+Added
+^^^^^
+
+- Validation of dataset name upon creation
+- Validation of dataset name when updating it
 
 
 [0.17.0] - 2018-07-26
