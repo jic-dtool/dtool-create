@@ -11,8 +11,6 @@ This change log uses principles from `keep a changelog <http://keepachangelog.co
 Added
 ^^^^^
 
-- Ability to update the name of a frozen dataset
-
 
 Changed
 ^^^^^^^
@@ -32,6 +30,15 @@ Fixed
 
 Security
 ^^^^^^^^
+
+[0.19.0] - 2018-08-03
+---------------------
+
+Added
+^^^^^
+
+- Added ability to update the name of a frozen dataset
+
 
 [0.18.0] - 2018-07-31
 ---------------------
