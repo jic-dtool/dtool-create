@@ -239,7 +239,13 @@ def interactive(proto_dataset_uri):
 
     # Write out the descriptive metadata to the readme file.
     stream = StringIO()
-    yaml.dump(descriptive_metadata, stream)
+
+    # Deal with ruamel.yaml issue with floats!
+    try:
+        yaml.dump(descriptive_metadata, stream)
+    except TypeError:
+        yaml.dump(descriptive_metadata, stream)
+
     proto_dataset.put_readme(stream.getvalue())
 
     click.secho("Updated readme ", fg="green")

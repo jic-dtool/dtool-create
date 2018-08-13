@@ -27,6 +27,8 @@ Removed
 Fixed
 ^^^^^
 
+- Deal with issue in how ruamel.yaml deals with float values
+
 
 Security
 ^^^^^^^^
