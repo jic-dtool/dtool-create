@@ -27,11 +27,19 @@ Removed
 Fixed
 ^^^^^
 
-- Deal with issue in how ruamel.yaml deals with float values
-
 
 Security
 ^^^^^^^^
+
+
+[0.20.0] - 2018-09-11
+---------------------
+
+Fixed
+^^^^^
+
+- Deal with issue in how ruamel.yaml deals with float values
+
 
 [0.19.0] - 2018-08-03
 ---------------------
