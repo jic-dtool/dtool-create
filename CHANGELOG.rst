@@ -34,6 +34,8 @@ Fixed
 
 - Defect in ``dtool create`` when providing a relative path to the
   ``--symlink-path`` option
+- Python 2 defect in dealing with unicode in README.yml file when using
+  ``dtool readme edit``
 
 
 Security
