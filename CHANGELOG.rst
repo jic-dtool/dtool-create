@@ -12,6 +12,7 @@ Added
 ^^^^^
 
 - ``dtool cp`` to replace ``dtool copy``
+- ``dtool readme write`` to write readme from file or stdin
 
 
 Changed
