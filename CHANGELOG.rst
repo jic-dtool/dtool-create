@@ -28,6 +28,8 @@ Deprecated
 Removed
 ^^^^^^^
 
+- Removed ``created_at`` field from default README template
+
 
 Fixed
 ^^^^^
