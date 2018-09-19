@@ -141,7 +141,8 @@ def create(quiet, name, base_uri, symlink_path):
     # If we are creating a symlink dataset we need to set the symlink_path
     # attribute on the storage broker.
     if symlink_path:
-        proto_dataset._storage_broker.symlink_path = symlink_path
+        symlink_abspath = os.path.abspath(symlink_path)
+        proto_dataset._storage_broker.symlink_path = symlink_abspath
     try:
         proto_dataset.create()
     except dtoolcore.storagebroker.StorageBrokerOSError as err:

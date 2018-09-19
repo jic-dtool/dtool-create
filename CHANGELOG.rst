@@ -27,6 +27,9 @@ Removed
 Fixed
 ^^^^^
 
+- Defect in ``dtool create`` when providing a relative path to the
+  ``--symlink-path`` option
+
 
 Security
 ^^^^^^^^
