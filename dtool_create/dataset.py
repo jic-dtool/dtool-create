@@ -329,6 +329,12 @@ def show(dataset_uri):
 @proto_dataset_uri_argument
 @click.argument('input', type=click.File('r'))
 def write(proto_dataset_uri, input):
+    """Use YAML from a file or stdin to populate the readme.
+
+    To stream content from stdin use "-", e.g.
+
+    echo "desc: my data" | dtool readme write <DS_URI> -
+    """
     proto_dataset = dtoolcore.ProtoDataSet.from_uri(
         uri=proto_dataset_uri
     )
