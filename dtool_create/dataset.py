@@ -281,6 +281,7 @@ def _validate_and_put_readme(dataset, readme_content):
     yaml.dump(readme_formatted, stream)
     dataset.put_readme(stream.getvalue())
 
+
 @readme.command()
 @base_dataset_uri_argument
 def edit(dataset_uri):
@@ -331,8 +332,7 @@ def write(proto_dataset_uri, input):
     proto_dataset = dtoolcore.ProtoDataSet.from_uri(
         uri=proto_dataset_uri
     )
-    click.secho(input.read())
-
+    _validate_and_put_readme(proto_dataset, input.read())
 
 
 @click.group()
