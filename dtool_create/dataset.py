@@ -18,6 +18,7 @@ import dtoolcore.utils
 from ruamel.yaml import YAML
 from ruamel.yaml.comments import CommentedMap
 from ruamel.yaml.parser import ParserError
+from ruamel.yaml.constructor import DuplicateKeyError
 from ruamel.yaml.scalarfloat import ScalarFloat
 
 from dtool_cli.cli import (
@@ -260,6 +261,26 @@ def interactive(proto_dataset_uri):
         fg="cyan")
 
 
+def _validate_and_put_readme(dataset, readme_content):
+    # Create YAML object to validate the content
+    # and to standardise the output formatting.
+    yaml = YAML()
+    yaml.explicit_start = True
+    yaml.indent(mapping=2, sequence=4, offset=2)
+
+    # Ensure that the content is valid YAML.
+    try:
+        readme_formatted = yaml.load(readme_content)
+    except (ParserError, DuplicateKeyError):
+        click.secho("Error: Invalid YAML", fg="red")
+        click.secho("Did not update readme ", fg="red")
+        sys.exit(5)
+
+    # Write out formatted YAML.
+    stream = StringIO()
+    yaml.dump(readme_formatted, stream)
+    dataset.put_readme(stream.getvalue())
+
 @readme.command()
 @base_dataset_uri_argument
 def edit(dataset_uri):
@@ -278,27 +299,7 @@ def edit(dataset_uri):
     readme_content = dataset.get_readme_content()
     edited_content = click.edit(readme_content)
     if edited_content is not None:
-
-        # Create YAML object to validate the content
-        # and to standardise the output formatting.
-        yaml = YAML()
-        yaml.explicit_start = True
-        yaml.indent(mapping=2, sequence=4, offset=2)
-
-        # Ensure that the content is valid YAML.
-        try:
-            descriptive_metadata = yaml.load(edited_content)
-        except ParserError:
-            click.secho("Error: Invalid YAML", fg="red")
-            click.secho("Did not update readme ", nl=False, fg="red")
-            click.secho(dataset_uri)
-            sys.exit(5)
-
-        # Write out formatted YAML.
-        stream = StringIO()
-        yaml.dump(descriptive_metadata, stream)
-        dataset.put_readme(stream.getvalue())
-
+        _validate_and_put_readme(dataset, edited_content)
         click.secho("Updated readme ", nl=False, fg="green")
     else:
         click.secho("Did not update readme ", nl=False, fg="red")
@@ -321,6 +322,17 @@ def show(dataset_uri):
         )
     readme_content = dataset.get_readme_content()
     click.secho(readme_content)
+
+
+@readme.command()
+@proto_dataset_uri_argument
+@click.argument('input', type=click.File('r'))
+def write(proto_dataset_uri, input):
+    proto_dataset = dtoolcore.ProtoDataSet.from_uri(
+        uri=proto_dataset_uri
+    )
+    click.secho(input.read())
+
 
 
 @click.group()
