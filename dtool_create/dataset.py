@@ -416,13 +416,7 @@ def freeze(proto_dataset_uri):
     click.secho(proto_dataset_uri)
 
 
-@click.command()
-@click.option("--resume", is_flag=True, help="Resume an interrupted copy")
-@click.option("--quiet", "-q", is_flag=True, help="Only return new URI")
-@dataset_uri_argument
-@click.argument("dest_base_uri")
-def copy(resume, quiet, dataset_uri, dest_base_uri):
-    """Copy a dataset to a different location."""
+def _copy(resume, quiet, dataset_uri, dest_base_uri):
     src_dataset = dtoolcore.DataSet.from_uri(dataset_uri)
 
     dest_uri = dtoolcore._generate_uri(
@@ -470,3 +464,33 @@ def copy(resume, quiet, dataset_uri, dest_base_uri):
             )
 
         click.secho("Dataset copied to:\n{}".format(dest_uri))
+
+
+@click.command()
+@click.option("--resume", is_flag=True, help="Resume an interrupted copy")
+@click.option("--quiet", "-q", is_flag=True, help="Only return new URI")
+@dataset_uri_argument
+@click.argument("dest_base_uri")
+def copy(resume, quiet, dataset_uri, dest_base_uri):
+    """DEPRECATED: Copy a dataset to a different location."""
+    click.secho(
+        "The ``dtool copy`` command is deprecated",
+        fg="red",
+        err=True
+    )
+    click.secho(
+        "Use ``dtool cp`` instead",
+        fg="red",
+        err=True
+    )
+    _copy(resume, quiet, dataset_uri, dest_base_uri)
+
+
+@click.command()
+@click.option("--resume", is_flag=True, help="Resume an interrupted copy")
+@click.option("--quiet", "-q", is_flag=True, help="Only return new URI")
+@dataset_uri_argument
+@click.argument("dest_base_uri")
+def cp(resume, quiet, dataset_uri, dest_base_uri):
+    """Copy a dataset to a different location."""
+    _copy(resume, quiet, dataset_uri, dest_base_uri)

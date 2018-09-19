@@ -11,6 +11,8 @@ This change log uses principles from `keep a changelog <http://keepachangelog.co
 Added
 ^^^^^
 
+- ``dtool cp`` to replace ``dtool copy``
+
 
 Changed
 ^^^^^^^
@@ -18,6 +20,8 @@ Changed
 
 Deprecated
 ^^^^^^^^^^
+
+- ``dtool copy`` in favour of ``dtool cp``
 
 
 Removed

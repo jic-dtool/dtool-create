@@ -1,4 +1,4 @@
-"""Test the ``dtool dataset copy`` command."""
+"""Test the ``dtool dataset cp`` command."""
 
 import os
 
@@ -11,7 +11,7 @@ from . import chdir_fixture, tmp_dir_fixture  # NOQA
 
 
 def test_dataset_copy_functional(chdir_fixture):  # NOQA
-    from dtool_create.dataset import create, freeze, add, copy
+    from dtool_create.dataset import create, freeze, add, cp
     runner = CliRunner()
 
     dataset_name = "my_dataset"
@@ -29,7 +29,7 @@ def test_dataset_copy_functional(chdir_fixture):  # NOQA
     copy_uri = "file://" + copy_directory
 
     # It should not be possible to copy a proto dataset.
-    result = runner.invoke(copy, [dataset_uri, copy_uri])
+    result = runner.invoke(cp, [dataset_uri, copy_uri])
     assert result.exit_code != 0
 
     # Create sample file to the proto dataset.
@@ -48,11 +48,11 @@ def test_dataset_copy_functional(chdir_fixture):  # NOQA
     dataset = DataSet.from_uri(dataset_uri)
 
     # It should now be possible to copy the dataset.
-    result = runner.invoke(copy, [dataset_uri, copy_uri])
+    result = runner.invoke(cp, [dataset_uri, copy_uri])
     assert result.exit_code == 0
 
     # However, it cannot be done again.
-    result = runner.invoke(copy, [dataset_uri, copy_uri])
+    result = runner.invoke(cp, [dataset_uri, copy_uri])
     assert result.exit_code != 0
 
     assert result.output.find("Error: Dataset already exists") != -1
@@ -62,7 +62,7 @@ def test_dataset_copy_functional(chdir_fixture):  # NOQA
     os.mkdir(copy_directory_2)
 
     # Test the quite flag.
-    result = runner.invoke(copy, [
+    result = runner.invoke(cp, [
         "--quiet",
         dataset_uri,
         "file://" + copy_directory_2

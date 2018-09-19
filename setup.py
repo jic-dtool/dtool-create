@@ -30,6 +30,7 @@ setup(
             "add=dtool_create.dataset:add",
             "freeze=dtool_create.dataset:freeze",
             "copy=dtool_create.dataset:copy",
+            "cp=dtool_create.dataset:cp",
         ],
     },
     download_url="{}/tarball/{}".format(url, version),
