@@ -11,12 +11,35 @@ This change log uses principles from `keep a changelog <http://keepachangelog.co
 Added
 ^^^^^
 
-- ``dtool cp`` to replace ``dtool copy``
-- ``dtool readme write`` to write readme from file or stdin
-
 
 Changed
 ^^^^^^^
+
+
+Deprecated
+^^^^^^^^^^
+
+
+Removed
+^^^^^^^
+
+
+Fixed
+^^^^^
+
+
+Security
+^^^^^^^^
+
+
+[0.21.0] - 2018-09-20
+---------------------
+
+Added
+^^^^^
+
+- ``dtool cp`` to replace ``dtool copy``
+- ``dtool readme write`` to write readme from file or stdin
 
 
 Deprecated
@@ -38,10 +61,6 @@ Fixed
   ``--symlink-path`` option
 - Python 2 defect in dealing with unicode in README.yml file when using
   ``dtool readme edit``
-
-
-Security
-^^^^^^^^
 
 
 [0.20.0] - 2018-09-11
