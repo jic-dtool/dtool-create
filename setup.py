@@ -20,6 +20,7 @@ setup(
         "dtoolcore>=3.6",
         "dtool_cli>=0.6.0",
         "dtool_symlink>=0.2.0",
+        "dtool_http",
         "ruamel.yaml",
     ],
     entry_points={
@@ -31,6 +32,7 @@ setup(
             "freeze=dtool_create.dataset:freeze",
             "copy=dtool_create.dataset:copy",
             "cp=dtool_create.dataset:cp",
+            "publish=dtool_create.publish:publish",
         ],
     },
     download_url="{}/tarball/{}".format(url, version),
