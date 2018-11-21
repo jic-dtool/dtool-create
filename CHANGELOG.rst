@@ -11,8 +11,6 @@ This change log uses principles from `keep a changelog <http://keepachangelog.co
 Added
 ^^^^^
 
-- Add ``dtool publish`` command
-
 
 Changed
 ^^^^^^^
@@ -32,6 +30,15 @@ Fixed
 
 Security
 ^^^^^^^^
+
+
+[0.22.0] - 2018-11-21
+---------------------
+
+Added
+^^^^^
+
+- Add ``dtool publish`` command
 
 
 [0.21.0] - 2018-09-20
