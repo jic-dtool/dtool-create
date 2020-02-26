@@ -5,6 +5,7 @@ import os
 from click.testing import CliRunner
 
 from dtoolcore import ProtoDataSet
+from dtoolcore.utils import sanitise_uri
 
 from . import chdir_fixture, tmp_dir_fixture  # NOQA
 
@@ -19,7 +20,7 @@ def test_dataset_create_functional(chdir_fixture):  # NOQA
 
     # Test that the proto dataset has been created.
     dataset_abspath = os.path.abspath(dataset_name)
-    dataset_uri = "file://{}".format(dataset_abspath)
+    dataset_uri = sanitise_uri(dataset_abspath)
     dataset = ProtoDataSet.from_uri(dataset_uri)
 
     # Test that the dataset name is correct.
@@ -38,9 +39,9 @@ def test_dataset_create_quiet_flag(tmp_dir_fixture):  # NOQA
     ])
     assert result.exit_code == 0
 
-    expected_output = "file://" + os.path.join(
-        tmp_dir_fixture, dataset_name)
-    assert result.output.strip() == expected_output
+    dataset_path = os.path.join(tmp_dir_fixture, dataset_name)
+    dataset_uri = sanitise_uri(dataset_path)
+    assert result.output.strip() == dataset_uri
 
 
 def test_dataset_create_fails_on_directory_exists(chdir_fixture):  # NOQA
@@ -65,7 +66,7 @@ def test_dataset_create_can_work_outside_current_directory(tmp_dir_fixture):  # 
     assert result.exit_code == 0
 
     # Test that the dataset has been created.
-    dataset_uri = "file://{}".format(dataset_path)
+    dataset_uri = sanitise_uri(dataset_path)
     dataset = ProtoDataSet.from_uri(dataset_uri)
 
     # Test that the dataset name is correct.

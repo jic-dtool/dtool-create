@@ -7,6 +7,7 @@ from . import chdir_fixture  # NOQA
 from click.testing import CliRunner
 
 from dtoolcore import ProtoDataSet
+from dtoolcore.utils import sanitise_uri
 
 
 def test_dataset_readme_show_functional(chdir_fixture):  # NOQA
@@ -18,7 +19,7 @@ def test_dataset_readme_show_functional(chdir_fixture):  # NOQA
     assert result.exit_code == 0
 
     dataset_abspath = os.path.abspath(dataset_name)
-    dataset_uri = "file://{}".format(dataset_abspath)
+    dataset_uri = sanitise_uri(dataset_abspath)
 
     result = runner.invoke(show, [dataset_uri])
     assert result.exit_code == 0

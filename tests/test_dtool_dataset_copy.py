@@ -5,6 +5,7 @@ import os
 from click.testing import CliRunner
 
 from dtoolcore import DataSet, ProtoDataSet
+from dtoolcore.utils import sanitise_uri
 from dtoolcore.compare import diff_content
 
 from . import chdir_fixture, tmp_dir_fixture  # NOQA
@@ -20,13 +21,13 @@ def test_dataset_copy_functional(chdir_fixture):  # NOQA
 
     # At this point we have a proto dataset
     dataset_abspath = os.path.abspath(dataset_name)
-    dataset_uri = "file://{}".format(dataset_abspath)
+    dataset_uri = sanitise_uri(dataset_abspath)
     dataset = ProtoDataSet.from_uri(dataset_uri)
 
     # Create a directory to copy the dataset to.
     copy_directory = os.path.abspath("copy_dir")
     os.mkdir(copy_directory)
-    copy_uri = "file://" + copy_directory
+    copy_uri = sanitise_uri(copy_directory)
 
     # It should not be possible to copy a proto dataset.
     result = runner.invoke(cp, [dataset_uri, copy_uri])
@@ -65,10 +66,12 @@ def test_dataset_copy_functional(chdir_fixture):  # NOQA
     result = runner.invoke(cp, [
         "--quiet",
         dataset_uri,
-        "file://" + copy_directory_2
+        sanitise_uri(copy_directory_2)
     ])
     assert result.exit_code == 0
-    expected_uri = "file://" + os.path.join(copy_directory_2, dataset_name)
+    expected_uri = sanitise_uri(
+        os.path.join(copy_directory_2, dataset_name)
+    )
     assert result.output.strip() == expected_uri
 
     # Compare the content of the two datasets.
