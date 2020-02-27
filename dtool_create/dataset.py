@@ -262,7 +262,7 @@ def interactive(proto_dataset_uri):
         fg="cyan")
 
 
-def _validate_readme(dataset, readme_content):
+def _validate_readme(readme_content):
     """Return (YAML string, error message)."""
     yaml = YAML()
     # Ensure that the content is valid YAML.
@@ -281,7 +281,7 @@ def _validate_and_put_readme(dataset, readme_content):
     yaml.indent(mapping=2, sequence=4, offset=2)
 
     # Validate the YAML.
-    readme_formatted, message = _validate_readme(dataset, readme_content)
+    readme_formatted, message = _validate_readme(readme_content)
     if message is not None:
         click.secho("Error: Invalid YAML", fg="red")
         click.secho(str(message))
@@ -342,6 +342,37 @@ def show(dataset_uri):
         )
     readme_content = dataset.get_readme_content()
     click.secho(readme_content)
+
+
+@readme.command()
+@base_dataset_uri_argument
+def validate(dataset_uri):
+    """Validate that the README is valid YAML.
+    """
+    try:
+        dataset = dtoolcore.ProtoDataSet.from_uri(
+            uri=dataset_uri,
+            config_path=CONFIG_PATH
+        )
+    except dtoolcore.DtoolCoreTypeError:
+        dataset = dtoolcore.DataSet.from_uri(
+            uri=dataset_uri,
+            config_path=CONFIG_PATH
+        )
+    readme_content = dataset.get_readme_content()
+
+    try:
+        # Python2 compatibility.
+        readme_content = unicode(readme_content, "utf-8")
+    except NameError:
+        pass
+
+    _, message = _validate_readme(readme_content)
+    if message is not None:
+        click.secho("Invalid YAML", fg="red")
+        click.secho(str(message))
+    else:
+        click.secho("All good!  :)", fg="green")
 
 
 @readme.command()
