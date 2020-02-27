@@ -20,6 +20,7 @@ from ruamel.yaml.comments import CommentedMap
 from ruamel.yaml.parser import ParserError
 from ruamel.yaml.constructor import DuplicateKeyError
 from ruamel.yaml.scalarfloat import ScalarFloat
+from ruamel.yaml.scanner import ScannerError
 
 from dtool_cli.cli import (
     base_dataset_uri_argument,
@@ -261,18 +262,29 @@ def interactive(proto_dataset_uri):
         fg="cyan")
 
 
+def _validate_readme(dataset, readme_content):
+    """Return (YAML string, error message)."""
+    yaml = YAML()
+    # Ensure that the content is valid YAML.
+    try:
+        readme_formatted = yaml.load(readme_content)
+        return readme_formatted, None
+    except (ParserError, DuplicateKeyError, ScannerError) as message:
+        readme_formatted = None
+        return None, str(message)
+
+
 def _validate_and_put_readme(dataset, readme_content):
-    # Create YAML object to validate the content
-    # and to standardise the output formatting.
+    # Create YAML object to standardise the output formatting.
     yaml = YAML()
     yaml.explicit_start = True
     yaml.indent(mapping=2, sequence=4, offset=2)
 
-    # Ensure that the content is valid YAML.
-    try:
-        readme_formatted = yaml.load(readme_content)
-    except (ParserError, DuplicateKeyError):
+    # Validate the YAML.
+    readme_formatted, message = _validate_readme(dataset, readme_content)
+    if message is not None:
         click.secho("Error: Invalid YAML", fg="red")
+        click.secho(str(message))
         click.secho("Did not update readme ", fg="red")
         sys.exit(5)
 
@@ -333,19 +345,26 @@ def show(dataset_uri):
 
 
 @readme.command()
-@proto_dataset_uri_argument
+@base_dataset_uri_argument
 @click.argument('input', type=click.File('r'))
-def write(proto_dataset_uri, input):
+def write(dataset_uri, input):
     """Use YAML from a file or stdin to populate the readme.
 
     To stream content from stdin use "-", e.g.
 
     echo "desc: my data" | dtool readme write <DS_URI> -
     """
-    proto_dataset = dtoolcore.ProtoDataSet.from_uri(
-        uri=proto_dataset_uri
-    )
-    _validate_and_put_readme(proto_dataset, input.read())
+    try:
+        dataset = dtoolcore.ProtoDataSet.from_uri(
+            uri=dataset_uri,
+            config_path=CONFIG_PATH
+        )
+    except dtoolcore.DtoolCoreTypeError:
+        dataset = dtoolcore.DataSet.from_uri(
+            uri=dataset_uri,
+            config_path=CONFIG_PATH
+        )
+    _validate_and_put_readme(dataset, input.read())
 
 
 @click.group()
