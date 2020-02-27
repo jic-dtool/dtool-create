@@ -12,6 +12,8 @@ Added
 ^^^^^
 
 - Add ``dtool readme validate`` command
+- Ability to update descriptive metadata in README of frozen datasets
+  when using ``dtool redme write``
 
 
 Changed
