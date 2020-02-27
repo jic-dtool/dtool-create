@@ -10,8 +10,6 @@ from dtoolcore.compare import diff_content
 
 from . import chdir_fixture, tmp_dir_fixture  # NOQA
 
-import logging
-logging.basicConfig(level=logging.DEBUG)
 
 def test_dataset_copy_functional(chdir_fixture):  # NOQA
     from dtool_create.dataset import create, freeze, add, cp

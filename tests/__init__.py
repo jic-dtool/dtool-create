@@ -4,7 +4,6 @@ import os
 import shutil
 import tempfile
 
-
 import pytest
 
 _HERE = os.path.dirname(__file__)
