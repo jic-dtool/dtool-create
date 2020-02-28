@@ -11,10 +11,6 @@ This change log uses principles from `keep a changelog <http://keepachangelog.co
 Added
 ^^^^^
 
-- Add ``dtool readme validate`` command
-- Ability to update descriptive metadata in README of frozen datasets
-  when using ``dtool redme write``
-
 
 Changed
 ^^^^^^^
@@ -34,6 +30,17 @@ Fixed
 
 Security
 ^^^^^^^^
+
+
+[0.23.0] - 2020-02-28
+---------------------
+
+Added
+^^^^^
+
+- Add ``dtool readme validate`` command
+- Ability to update descriptive metadata in README of frozen datasets
+  when using ``dtool redme write``
 
 
 [0.22.0] - 2018-11-21
