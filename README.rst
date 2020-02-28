@@ -9,6 +9,10 @@ dtool CLI commands for creating datasets
    :target: https://travis-ci.org/jic-dtool/dtool-create
    :alt: Travis CI build status (Linux)
 
+.. image:: https://ci.appveyor.com/api/projects/status/3300cl94ajot1231/branch/master?svg=true
+   :target: https://ci.appveyor.com/project/tjelvar-olsson/dtoolcore
+   :alt: AppVeyor CI build status (Windows)
+
 .. image:: https://codecov.io/github/jic-dtool/dtool-create/coverage.svg?branch=master
    :target: https://codecov.io/github/jic-dtool/dtool-create?branch=master
    :alt: Code Coverage
@@ -111,4 +115,5 @@ Related packages
 
 - `dtoolcore <https://github.com/jic-dtool/dtoolcore>`_
 - `dtool-cli <https://github.com/jic-dtool/dtool-cli>`_
+- `dtool-config <https://github.com/jic-dtool/dtool-config>`_
 - `dtool-info <https://github.com/jic-dtool/dtool-info>`_
