@@ -91,11 +91,11 @@ def _prompt_for_values(d):
                 try:
                     date = datetime.datetime.strptime(value, "%Y-%m-%d")
                 except ValueError as e:
-                    raise click.BadParameter("Could not parse date, {}"
-                        .format(e), param=value)
-                return value
+                    raise click.BadParameter(
+                        "Could not parse date, {}".format(e), param=value)
+                return date
             new_value = click.prompt(key, default=value, value_proc=parse_date)
-            d[key] = new_value            
+            d[key] = new_value
         else:
             typ = type(value)
 
