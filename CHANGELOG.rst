@@ -27,12 +27,19 @@ Removed
 Fixed
 ^^^^^
 
-- Fixed defect in ``dtool readme interactive`` command when the readme template contains a date.
-  Thanks to Lars Pastewka.
-
 
 Security
 ^^^^^^^^
+
+
+[0.23.1] - 2020-05-27
+---------------------
+
+Fixed
+^^^^^
+
+- Fixed defect in ``dtool readme interactive`` command when the readme template contains a date.
+  Thanks to Lars Pastewka.
 
 
 [0.23.0] - 2020-02-28
