@@ -27,6 +27,9 @@ Removed
 Fixed
 ^^^^^
 
+- Fixed defect in ``dtool readme interactive`` command when the readme template contains a date.
+  Thanks to Lars Pastewka.
+
 
 Security
 ^^^^^^^^
