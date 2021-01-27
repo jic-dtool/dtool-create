@@ -27,6 +27,10 @@ Removed
 Fixed
 ^^^^^
 
+- Fixed defect in "dtool readme interaction" when the default date of today is
+  not updated when using "{{ date }}" in the readme template. See
+  https://github.com/jic-dtool/dtool-create/issues/24
+
 
 Security
 ^^^^^^^^

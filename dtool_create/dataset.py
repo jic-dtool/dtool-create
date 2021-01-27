@@ -95,7 +95,10 @@ def _prompt_for_values(d):
                         "Could not parse date, {}".format(e), param=value)
                 return date
             new_value = click.prompt(key, default=value, value_proc=parse_date)
-            d[key] = new_value.date().isoformat()
+            if isinstance(new_value, datetime.date):
+                d[key] = new_value
+            else:
+                d[key] = new_value.date()
         else:
             typ = type(value)
 
