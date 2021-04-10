@@ -27,6 +27,9 @@ Removed
 Fixed
 ^^^^^
 
+- Fixed issue where "dtool readme edit" opened file with ".txt" extension
+  rather than ".yml" extension. See:
+  https://github.com/jic-dtool/dtool-cli/issues/3
 
 Security
 ^^^^^^^^

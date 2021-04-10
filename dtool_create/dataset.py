@@ -330,7 +330,7 @@ def edit(dataset_uri):
     except NameError:
         pass
 
-    edited_content = click.edit(readme_content)
+    edited_content = click.edit(readme_content, extension=".yml")
     if edited_content is not None:
         _validate_and_put_readme(dataset, edited_content)
         click.secho("Updated readme ", nl=False, fg="green")
