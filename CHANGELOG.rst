@@ -32,6 +32,15 @@ Security
 ^^^^^^^^
 
 
+[0.23.4] - 2021-06-23
+---------------------
+
+Fixed
+^^^^^
+
+- Licence file now included in release thanks to Jan Janssen (https://github.com/jan-janssen)
+
+
 [0.23.3] - 2021-04-10
 ---------------------
 
@@ -41,6 +50,7 @@ Fixed
 - Fixed issue where "dtool readme edit" opened file with ".txt" extension
   rather than ".yml" extension. See:
   https://github.com/jic-dtool/dtool-cli/issues/3
+  Thanks to Antoine Sanner.
 
 
 [0.23.2] - 2021-01-27
@@ -49,9 +59,10 @@ Fixed
 Fixed
 ^^^^^
 
-- Fixed defect in "dtool readme interaction" when the default date of today is
+- Fixed defect in "dtool readme interactive" when the default date of today is
   not updated when using "{{ date }}" in the readme template. See
   https://github.com/jic-dtool/dtool-create/issues/24
+  Thanks to Antoine Sanner.
 
 
 [0.23.1] - 2020-05-27
