@@ -1,2 +1,3 @@
 include README.rst
 include dtool_create/templates/README.yml
+include LICENSE.rst
