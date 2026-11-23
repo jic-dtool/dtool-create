@@ -1,0 +1,45 @@
+[build-system]
+requires = ["hatchling>=1.27", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "dtool-create"
+description = "Dtool plugin for creating datasets"
+readme = "README.rst"
+license = "MIT"
+license-files = ["LICENSE.rst"]
+authors = [
+    {name = "Tjelvar Olsson", email = "tjelvar.olsson@gmail.com"},
+]
+requires-python = ">=3.10"
+dynamic = ["version"]
+dependencies = [
+    "click",
+    "dtoolcore>=3.6",
+    "dtool_cli>=0.6.0",
+    "dtool_symlink>=0.2.0",
+    "dtool_http",
+    "ruamel.yaml",
+]
+
+[project.urls]
+Repository = "https://github.com/jic-dtool/dtool-create"
+
+[project.entry-points."dtool.cli"]
+create = "dtool_create.dataset:create"
+name = "dtool_create.dataset:name"
+readme = "dtool_create.dataset:readme"
+add = "dtool_create.dataset:add"
+freeze = "dtool_create.dataset:freeze"
+copy = "dtool_create.dataset:copy"
+cp = "dtool_create.dataset:cp"
+publish = "dtool_create.publish:publish"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.version.raw-options]
+local_scheme = "no-local-version"
+
+[tool.hatch.build.targets.wheel]
+packages = ["dtool_create"]

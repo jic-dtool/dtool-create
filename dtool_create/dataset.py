@@ -5,10 +5,7 @@ import os
 import getpass
 import datetime
 
-try:
-    from StringIO import StringIO
-except ImportError:
-    from io import StringIO
+from io import StringIO
 
 import click
 import dtoolcore
@@ -324,12 +321,6 @@ def edit(dataset_uri):
         )
     readme_content = dataset.get_readme_content()
 
-    try:
-        # Python2 compatibility.
-        readme_content = unicode(readme_content, "utf-8")
-    except NameError:
-        pass
-
     edited_content = click.edit(readme_content, extension=".yml")
     if edited_content is not None:
         _validate_and_put_readme(dataset, edited_content)
@@ -373,12 +364,6 @@ def validate(dataset_uri):
             config_path=CONFIG_PATH
         )
     readme_content = dataset.get_readme_content()
-
-    try:
-        # Python2 compatibility.
-        readme_content = unicode(readme_content, "utf-8")
-    except NameError:
-        pass
 
     _, message = _validate_readme(readme_content)
     if message is not None:
