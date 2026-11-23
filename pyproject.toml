@@ -16,7 +16,7 @@ dynamic = ["version"]
 dependencies = [
     "click",
     "dtoolcore>=3.6",
-    "dtool_cli>=0.6.0",
+    "dtool-cli>=0.7.2",
     "dtool_symlink>=0.2.0",
     "dtool_http",
     "ruamel.yaml",

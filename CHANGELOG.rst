@@ -17,6 +17,9 @@ Changed
 
 - Build system switched to hatchling with hatch-vcs; the version is now
   derived from git tags
+- Require ``dtool-cli>=0.7.2``; earlier releases import ``pkg_resources``,
+  which is not available without setuptools
+
 
 Deprecated
 ^^^^^^^^^^
@@ -26,6 +29,7 @@ Removed
 ^^^^^^^
 
 - Support for Python < 3.10
+
 
 Fixed
 ^^^^^
