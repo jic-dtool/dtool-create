@@ -5,6 +5,10 @@ dtool CLI commands for creating datasets
    :target: http://badge.fury.io/py/dtool-create
    :alt: PyPi package
 
+.. image:: https://github.com/jic-dtool/dtool-create/actions/workflows/test.yml/badge.svg?branch=main
+   :target: https://github.com/jic-dtool/dtool-create/actions/workflows/test.yml
+   :alt: Tests
+
 .. image:: https://codecov.io/github/jic-dtool/dtool-create/coverage.svg?branch=main
    :target: https://codecov.io/github/jic-dtool/dtool-create?branch=main
    :alt: Code Coverage
