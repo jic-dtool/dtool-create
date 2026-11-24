@@ -198,7 +198,7 @@ Added
   in the base of disk datasets
 
 
-[0.15.0] - 2018-05-18
+[0.15.0] - 2018-05-24
 ---------------------
 
 Added
@@ -388,3 +388,10 @@ Basic release with three commands that make use of the ``dtoolcore`` version
 - ``create`` - for creating a new proto dataset
 - ``readme`` - for editing the README.yml of the dataset
 - ``freeze`` - for converting a proto dataset into a dataset
+
+
+[0.1.0] - 2017-08-03
+--------------------
+
+Initial release with the ``create``, ``readme`` and ``freeze`` commands,
+registered under the ``dtool.dataset`` entry point of ``dtool-cli`` 0.1.0.
