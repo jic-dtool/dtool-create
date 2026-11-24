@@ -5,9 +5,9 @@ dtool CLI commands for creating datasets
    :target: http://badge.fury.io/py/dtool-create
    :alt: PyPi package
 
-.. image:: https://ci.appveyor.com/api/projects/status/3300cl94ajot1231/branch/main?svg=true
-   :target: https://ci.appveyor.com/project/tjelvar-olsson/dtoolcore
-   :alt: AppVeyor CI build status (Windows)
+.. image:: https://github.com/jic-dtool/dtool-create/actions/workflows/test.yml/badge.svg?branch=main
+   :target: https://github.com/jic-dtool/dtool-create/actions/workflows/test.yml
+   :alt: Tests
 
 .. image:: https://codecov.io/github/jic-dtool/dtool-create/coverage.svg?branch=main
    :target: https://codecov.io/github/jic-dtool/dtool-create?branch=main
