@@ -27,6 +27,11 @@ Removed
 Fixed
 ^^^^^
 
+- ``dtool readme interactive`` with a README template containing a date: accepting
+  the default date no longer fails with a ``TypeError``, and an entered date is
+  stored as a date (``2024-02-03``) rather than a timestamp
+  (``2024-02-03 00:00:00``)
+
 
 Security
 ^^^^^^^^
