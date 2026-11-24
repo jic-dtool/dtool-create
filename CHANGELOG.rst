@@ -11,17 +11,9 @@ This change log uses principles from `keep a changelog <http://keepachangelog.co
 Added
 ^^^^^
 
-- GitHub Actions workflow that publishes a release to PyPI when a version
-  tag is pushed
-
 
 Changed
 ^^^^^^^
-
-- Build system switched to hatchling with hatch-vcs; the version is now
-  derived from git tags
-- Require ``dtool-cli>=0.7.2``; earlier releases import ``pkg_resources``,
-  which is not available without setuptools
 
 
 Deprecated
@@ -31,8 +23,6 @@ Deprecated
 Removed
 ^^^^^^^
 
-- Support for Python < 3.10
-
 
 Fixed
 ^^^^^
@@ -40,6 +30,29 @@ Fixed
 
 Security
 ^^^^^^^^
+
+
+[0.23.5] - 2026-11-24
+---------------------
+
+Added
+^^^^^
+
+- GitHub Actions workflow that publishes a release to PyPI when a version
+  tag is pushed
+
+Changed
+^^^^^^^
+
+- Build system switched to hatchling with hatch-vcs; the version is now
+  derived from git tags
+- Require ``dtool-cli>=0.7.2``; earlier releases import ``pkg_resources``,
+  which is not available without setuptools
+
+Removed
+^^^^^^^
+
+- Support for Python < 3.10
 
 
 [0.23.4] - 2021-06-23
