@@ -85,17 +85,16 @@ def _prompt_for_values(d):
                 _prompt_for_values(item)
         elif isinstance(value, datetime.date):
             def parse_date(value):
+                # click also passes the default, which already is a date,
+                # through value_proc when the user just presses enter.
+                if isinstance(value, datetime.date):
+                    return value
                 try:
-                    date = datetime.datetime.strptime(value, "%Y-%m-%d")
+                    return datetime.datetime.strptime(value, "%Y-%m-%d").date()
                 except ValueError as e:
                     raise click.BadParameter(
                         "Could not parse date, {}".format(e), param=value)
-                return date
-            new_value = click.prompt(key, default=value, value_proc=parse_date)
-            if isinstance(new_value, datetime.date):
-                d[key] = new_value
-            else:
-                d[key] = new_value.date()
+            d[key] = click.prompt(key, default=value, value_proc=parse_date)
         else:
             typ = type(value)
 
